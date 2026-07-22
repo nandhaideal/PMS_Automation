@@ -46,9 +46,4 @@ class LoginPage:
         except Exception:
             raise AssertionError("Login Failed: 'Scrum Board' not visible after 20 seconds")
 
-try:
-            WebDriverWait(self.driver, 20).until(
-                EC.visibility_of_element_located(self.HOME_PAGE_TITLE)
-            )
-        except Exception:
-            raise AssertionError("Login Failed: 'Scrum Board' not visible after 20 seconds")      
+      
