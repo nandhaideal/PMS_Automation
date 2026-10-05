@@ -14,7 +14,7 @@ class HomePage:
 
     BOARD_TITLE = (
         By.XPATH,
-        "//*[contains(text(),'Scrum Board')]"
+        "//span[text()='Scrum Board']"
     )
 
     GT_BOARD = (
@@ -24,32 +24,31 @@ class HomePage:
 
     BUGS_BOARD = (
         By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card board-item-card'])[3]"
+        "(//mat-card[@class='mat-mdc-card mdc-card board-item-card ng-star-inserted'])[3]"
     )
 
     HOME_BUTTON = (
         By.XPATH,
         "//button[@class='glass-btn glow']"
     )
+    
     FILTER_BY_PROJECTS = (
         By.XPATH,
         "//mat-label[text()='Filter by Projects']"
             
         )
     
-    """ALL_PROJECT_OPTIONS = (
-    By.XPATH,
-         "//span[normalize-space()='GHMIS'] | "
-         "//span[normalize-space()='IT Infra'] | "
-         "//span[normalize-space()='IT Support'] | "
-         "//span[normalize-space()='OSS'] | "
-         "//span[normalize-space()='PDS'] | "
-         "//span[normalize-space()='R&D Product Design & Development'] | "
-         "//span[normalize-space()='R&D Software & Support'] | "
-         "//span[normalize-space()='DISTRIBUTION TEAM'] | "
-         "//span[normalize-space()='AI/ML']"
+        #"""ALL_PROJECT_OPTIONS = (
+    #By.XPATH,
+        # "//span[normalize-space()='GHMIS'] | "
+     #    "//span[normalize-space()='IT Infra'] | "
+      ##3 "//span[normalize-space()='PDS'] | "
+        # "//span[normalize-space()='R&D Product Design & Development'] | "
+        # "//span[normalize-space()='R&D Software & Support'] | "
+        # "//span[normalize-space()='DISTRIBUTION TEAM'] | "
+        # "//span[normalize-space()='AI/ML']"
          
-        )"""
+        #)"""
 
         
     DESELECT_ALL = (
@@ -67,7 +66,7 @@ class HomePage:
     
     CLICK_ON_HOMEPAGE = (
         By.XPATH,
-        "//body[@class='mat-typography']"
+        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
     )
         
     CLICK_ON_SUMMARY_PAGE = (
@@ -119,7 +118,7 @@ class HomePage:
 
     CREATE_BTN = (
         By.XPATH,
-        "//span[text()='Create']"
+        "//button[@class='btn create-btn']"
     )
 
     TASK_BTN = (
@@ -129,27 +128,27 @@ class HomePage:
 
     BUG_BTN = (
         By.XPATH,
-        "//button[@class='btn bug-btn']"
+        "//button[text()=' Bug ']"
     )
 
     PROD_BUG = (
         By.XPATH,
-        "//button[@class='btn prod-btn']"
+        "//button[text()=' Prod Bug ']"
     )
 
     CR_BTN = (
         By.XPATH,
-        "//button[@class='btn cr-btn']"
+        "//button[text()=' CR ']"
     )
 
     STORY_BTN = (
         By.XPATH,
-        "//button[@class='btn story-btn']"
+        "//button[text()=' Story ']"
     )
 
     EPIC_BTN = (
         By.XPATH,
-        "//button[@class='btn epic-btn']"
+        "//button[text()=' Epic ']"
     )
 
     CLOSE_ICON = (
@@ -161,7 +160,7 @@ class HomePage:
 
     SCRUM_BOARD = (
         By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card board-item-card'][1])"
+        "(//mat-card[@class='mat-mdc-card mdc-card board-item-card ng-star-inserted'])[1]"
     )
 
 ####----------Active sprint page------------------------------
@@ -173,7 +172,7 @@ class HomePage:
 
     COMPLETE_SPRINT = (
         By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
+        "//span[text()=' Complete Sprint ']"
     )
 
     SPRINT_DETAILS_BTN = (
@@ -188,8 +187,7 @@ class HomePage:
     
     TO_DO = (
         By.XPATH,
-        "(//div[contains(@class,'cdk-drop-list') and contains(@class,'column')])[1]"
-    )
+            "//div[@id='todoList']")
     IN_PROGRESS = (
         By.ID, "inProgressList"
     )
@@ -230,7 +228,7 @@ class HomePage:
     )
     SPRINT_DETAILS_CANCEL_BUTTON = (
         By.XPATH,
-        "(//button[@class='mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base'])[7]"
+        "//span[text()='Cancel']"
     )
 
 ###---------------SUMMARY Page--------------------------------------
@@ -1771,6 +1769,7 @@ class HomePage:
       
     def select_filter_by_projects(self):
         
+        time.sleep(Config.LONG_WAIT)
         self.driver.find_element(*self.FILTER_BY_PROJECTS).click()
         
         self.driver.find_element(*self.DESELECT_ALL).click()
@@ -1809,8 +1808,8 @@ class HomePage:
    
     
     def verify_home_page(self):
-
-        assert self.driver.find_element(*self.BOARD_TITLE).is_displayed()
+        time.sleep(Config.MEDIUM_WAIT)
+        assert self.driver.find_element(*self.SCRUM_BOARD).is_displayed()
         assert self.driver.find_element(*self.GT_BOARD).is_displayed()
         assert self.driver.find_element(*self.BUGS_BOARD).is_displayed()
         assert self.driver.find_element(*self.HOME_BUTTON).is_displayed()
@@ -1832,9 +1831,10 @@ class HomePage:
 
     def verify_create_btn(self):
 
-       WebDriverWait(self.driver, 20).until(
-        EC.element_to_be_clickable(self.CREATE_BTN)
-       ).click()
+
+       time.sleep(Config.MEDIUM_WAIT)
+       WebDriverWait(self.driver, 40).until(
+        EC.element_to_be_clickable(self.CREATE_BTN)).click()
       
        if self.is_task_only_project():
         self.verify_task_only()
@@ -1910,6 +1910,7 @@ class HomePage:
 
     # Find Complete Sprint element
     
+    
         complete_sprint = self.driver.find_elements(*self.COMPLETE_SPRINT)
         
     # Click Complete Sprint
@@ -1982,7 +1983,7 @@ class HomePage:
         ).is_displayed()
 
         assert wait.until(
-        EC.visibility_of_element_located3(
+        EC.visibility_of_element_located(
             self.IN_PROGRESS)
         ).is_displayed()
 

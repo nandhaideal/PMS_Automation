@@ -10,8 +10,8 @@ class LoginPage:
     def __init__(self, driver):
         self.driver = driver
 
-    USERNAME = (By.XPATH, "//input[@placeholder='Username ']")
-    PASSWORD = (By.XPATH, "//input[@placeholder='Password']")
+    USERNAME = (By.XPATH, "//input[@placeholder='Enter your username']")
+    PASSWORD = (By.XPATH, "//input[@placeholder='Enter your password']")
     LOGIN_BUTTON = (By.XPATH, "//button[@type='submit']")
 
     # Home page element after successful login
