@@ -5,6 +5,8 @@ import time
 from config.config import Config
 import pytest
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 
 class HomePage:
@@ -240,39 +242,39 @@ class HomePage:
 
     TOTAL_ISSUES = (
         By.XPATH,
-        "//mat-card[contains(@class,'kpi-card') and contains(@class,'total')]"
+        "//div[text()=' Total Issues ']"
     )
 
     OPEN_ISSUES = (
         By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card open']"
+        "//div[text()=' Open Issues ']"
     )
 
-    CLOSED_STATUS = (
+    COMPLETED_STATUS = (
         By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card closed']"
+        "//div[text()=' Completed ']"
     )
 
     UPDATED_STATUS = (
         By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card overdue']"
+        "//div[text()=' Recently Updated ']"
     )
 
     DATE_FILTER = (
         By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
+        "//span[text()=' Date Filter ']"
     )
     EXPORT_BTN = (
         By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger export-btn mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base']"
+        "//span[text()=' Export ']"
     )
     ISSUE_STATUS = (
         By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[1]"
+        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[1]"
     )
     PRIORITY_BREAKDOWN = (
         By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[2]"
+        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[2]"
     )
     PRIORITY_SPLIT = (
         By.XPATH,
@@ -280,7 +282,7 @@ class HomePage:
     )
     ISSUE_TREND = (
         By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[4]"
+        "//mat-card[@class='mat-mdc-card mdc-card chart-card large']"
     )
     COMPLETION_RATE = (
         By.XPATH,
@@ -298,7 +300,7 @@ class HomePage:
     
     ASSIGNE_VS_TRACKER = (
         By.XPATH,
-        "//mat-card[contains(@class,'table-card')]"
+        "(//section[@class='section'])[3]"
     )
     
     DATE_FILTER_RADIO_BTN = (
@@ -308,7 +310,7 @@ class HomePage:
     
     UPDATE_BTN = (
         By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
+        "//span[text()=' Update ']"
     )
     
     EXPORT_BTN = (
@@ -318,29 +320,29 @@ class HomePage:
     )
     EXPORT_AS_CSV_BTN = (
         By.XPATH,
-        "//button[contains(@class,'mat-mdc-menu-item') and .//span[contains(text(),'Export as CSV')]]"
+        "//span[text()=' Export CSV ']"
     )
     
     EXPORT_AS_HTML_BTN = (
         By.XPATH,
-        "//button[contains(@class,'mat-mdc-menu-item') and .//span[contains(text(),'Export as HTML')]]"
+        "//span[text()=' Export HTML ']"
     )
    
 ###---------------BackLog Page------------------------
 
     BACKLOG = (
         By.XPATH,
-        "//span[normalize-space()='Backlog']"
+        "(//span[@class='mdc-button__label'])[2]"
     )
 
     BACKLOG_OPEN = (
         By.XPATH,
-        "(//button[@type='button'])[2]"
+        "(//span[@class='mat-button-toggle-label-content'])[1]"
     )
 
     BACKLOG_CLOSED = (
         By.XPATH,
-        "(//button[@type='button'])[3]"
+        "(//span[@class='mat-button-toggle-label-content'])[2]"
     )
 
     BACKLOG_COMPLETE_SPRINT = (
@@ -383,7 +385,7 @@ class HomePage:
     
     BACKLOG_SPRINT_DETAILS_ICON = (
         By.XPATH,
-        "//div[@class='position-relative']"
+        "//span[@class='mat-mdc-button-persistent-ripple mdc-fab__ripple']"
     )
     BACKLOG_SPRINT_NAME = (
         By.XPATH,
@@ -399,9 +401,9 @@ class HomePage:
         "//select[@formcontrolname='sharing']"
         
     )
-    BACKLOG_ADD_SPRINT = (
+    BACKLOG_NEW_SPRINT = (
         By.XPATH,
-        "//span[text()=' Add Sprint ']"
+        "//span[text()=' New Sprint ']"
     )
     BACKLOG_SPRINT_DURATION = (
         By.XPATH,
@@ -463,7 +465,7 @@ class HomePage:
     )
     REPORTS_EXPORT_BUTTON = (
         By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger btn btn-success px-3 py-2']"
+        "//button[text()=' Export ']"
     )
     REPORTS_CHECK_BOX = (
         By.XPATH,
@@ -489,7 +491,18 @@ class HomePage:
         By.XPATH,
         "(//span[@class='mat-mdc-button-touch-target'])[14]"
     )
-
+    REPORTS_EXPORT_EXCEL_BTN = (
+        By.XPATH,
+        "//span[text()=' Download as Excel ']"
+    )
+    REPORTS_EXPORT_AS_HTML_BTN = (
+        By.XPATH,
+        "//span[text()=' Download as HTML ']"
+    )
+    REPORTS_EXPORT_CLOSE_CLICK =(
+        By.XPATH,
+        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+    )
     #-----------------------LISTS-----------------------------------------
     
     LISTS_BTN = (
@@ -508,36 +521,36 @@ class HomePage:
     
     LISTS_CREATE_BTN = (
         By.XPATH,
-        "//button[@class='btn btn-success create-btn']"
+        "//button[@class='btn btn-success create-btn ng-star-inserted']"
     )
     LISTS_TASK_BTN = (
         By.XPATH,
-        "//button[@class='btn task-btn']"
+        "//button[@class='btn task-btn ng-star-inserted']"
     )
 
     LISTS_BUG_BTN = (
         By.XPATH,
-        "//button[contains(@class,'bug-btn')]"
+        "//button[@class='btn bug-btn ng-star-inserted']"
     )
 
     LISTS_PROD_BUG = (
         By.XPATH,
-        "//button[@class='btn prod-btn']"
+        "//button[@class='btn prod-btn ng-star-inserted']"
     )
 
     LISTS_CR_BTN = (
         By.XPATH,
-        "//button[@class='btn cr-btn']"
+        "//button[@class='btn cr-btn ng-star-inserted']"
     )
 
     LISTS_STORY_BTN = (
         By.XPATH,
-        "//button[@class='btn story-btn']"
+        "//button[@class='btn story-btn ng-star-inserted']"
     )
 
     LISTS_EPIC_BTN = (
         By.XPATH,
-        "//button[@class='btn epic-btn']"
+        "//button[@class='btn epic-btn ng-star-inserted']"
     )
 
     LISTS_CLOSE_ICON = (
@@ -583,21 +596,21 @@ class HomePage:
     
     LISTS_FULL_LEFT_NAVIGATION_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[2]"
+        "(//button[@type='button'])[7]"
     )
     LISTS_FULL_RIGHT_NAVIGATION_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[5]"
+        "(//button[@type='button'])[10]"
     )
     
     LISTS_LEFT_NAVIGATION_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[3]"
+        "(//button[@type='button'])[8]"
     )
     
     LISTS_RIGHT_NAVIGATION_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[4]"
+        "(//button[@type='button'])[9]"
     )
     
     #------------------------TIMESHEETS-----------------------------------------------
@@ -627,14 +640,18 @@ class HomePage:
     )
     TIMESHEETS_PROJECT_LEFT_NAV_BTN = (
         By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[1]"
+        "(//button[@type='button'])[7]"
     )
 
     TIMESHEETS_PROJECT_RIGHT_NAV_BTN = (
         By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[2]"
+        "(//button[@type='button'])[8]"
     )
-
+    TIMESHEETS_LOG_BUTTON   = (
+        
+        By.XPATH,
+        "(//button[@class='add-btn'])[1]"
+    )
     TIMESHEETS_APPROVAL = (
         By.XPATH,
         "//span[text()='Approvals']"
@@ -655,11 +672,11 @@ class HomePage:
     )
     TIMESHEETS_PROJECT_ISSUE = (
         By.XPATH,
-        "//div[@class='card border']"
+        "//div[@class='week-card ng-star-inserted']"
     )
-    TIMESHEETS_TIMESHEET_CARD = (
+    TIMESHEETS_ISSUE_ACTIVITY = (
         By.XPATH,
-        "//div[@class='timesheet-card']"
+        "//div[@class='timesheet-card ng-star-inserted']"
     )
     TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN = (
         By.XPATH,
@@ -669,11 +686,123 @@ class HomePage:
         By.XPATH,
         "//button[@class='btn btn-light btn-sm ms-2']"
     )    
-    #--------------------Users-------------------------------------
+    TIMESHEETS_LOGTIME_ISSUES_DRPDWN = (
+        By.XPATH,
+        
+        "(//mat-select[@role='combobox'])[2]")
+    
+    TIMESHEETS_LOGTIME_CLOSE_CLICK = (
+        By.XPATH,
+        "//div[@class='cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing']")
+       
+    TIMESHEETS_DATE_FIELD = (
+        By.XPATH,
+        "(//div[@class='field-group half'])[1]"
+        )
+    
+    TIMESHEETS_LOGTIME_BTN = (
+      By.XPATH,
+      "//button[text()=' Log ']"
+    )
+        
+    TIMESHEETS_ACTIVITY_DROPDOWN = (
+        By.XPATH,
+        "(//div[@class='field-group half'])[2]") 
+    
+    TIMESHEETS_START_TIME = ( 
+        By.XPATH,
+        "//input[@id='startTime']")
+    
+    TIMESHEETS_END_TIME = (
+        By.XPATH,
+        "//input[@id='endTime']")
+    
+    TIMESHEETS_TIME_SPENT = (
+        By.XPATH,
+        "//input[@id='hours']"
+        
+    )
+     
+    TIMESHEETS_WORK_DESCRIPTION = (
+        By.XPATH,
+        "//textarea[@id='comments']"
+    )    
+    TIMESHEETS_CANCEL_BTN = (
+        By.XPATH,
+        "//button[@class='btn-ghost']"
+    )                     
+    TIMESHEETS_APPROVAL_PAGE_PREVIOUSWEEK_NAVIGATION_BTN = (
+        By.XPATH,
+        "//button[@class='btn btn-light btn-sm me-2']"
+    )                                     
+    TIMESHEETS_APPROVAL_PAGE_NEXTWEEK_NAVIGATION_BTN = (    
+    By.XPATH,
+    "//button[@class='btn btn-light btn-sm ms-2']"
+    )
+    TIMESHEETS_APPROVAL_READY_TO_SUBMIT = (
+        By.XPATH,
+        "(//div[@class='approval-box mb-4'])[1]")
+    
+    TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL = (
+       By.XPATH,    
+    
+    "(//div[@class='approval-box mb-4'])[2]")
+    
+    TIMESHEETS_APPROVAL_APPROVED_STATUS = (
+        
+        By.XPATH,
+        "//div[@class='approval-box']"
+     )
+    
+    TEAM_TIMESHEETS_BTN = (
+        By.XPATH,
+        "(//span[@class='mdc-tab__text-label'])[3]"
+    )
+    TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN = (
+        By.XPATH,
+        "//button[@aria-label='Previous week']"
+    )
+    TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN = (
+        
+        By.XPATH,
+        "//button[@aria-label='Next week']"
+    )
+    TEAM_TIMESHEETS_THISWEEK_BTN = (
+         By.XPATH,
+         "//button[text()='This week']")
+   
+    TEAM_TIMESHEETS_EXPORTTEAM_BTN = (
+        By.XPATH,
+        "//span[text()='Export team']"
+    )  
+       
+    TEAM_TIMESHEETS_TEAM_MEMBERS =(
+        
+        By.XPATH,
+        "(//div[@class='summary-item'])[1]"
+        
+    ) 
+    TEAM_TIMESHEETS_ENTRIES = (
+        By.XPATH,
+        "(//div[@class='summary-item'])[2]"
+    )   
+     
+    TEAM_TIMESHEETS_TOTAL_HOURS = (
+        By.XPATH,
+        "//span[text()='Total hours']"  
+    )
+    
+    TEAM_TIMESHEETS_MEMBER_LIST = (
+        By.XPATH,
+        "//div[@class='grid-card']"
+    )
+       
+       
+           #--------------------Users-------------------------------------
 
     USERS_BTN = (
         By.XPATH,
-        "//span[normalize-space()='Users']"
+        "//span[text()='Users']"
     )
 
     USERS_SEARCH_FIELD = (
@@ -682,7 +811,7 @@ class HomePage:
     )
     USERS_ADD_USER_BTN = (
         By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
+        "//span[text()=' Add User ']"
     )
     
     USERS_CREATE_NEWUSER_USRNAME = (
@@ -739,19 +868,19 @@ class HomePage:
     
     USERS_FULL_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[2]"
+        "(//button[@type='button'])[7]"
     )
     USERS_FULL_RIGHT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[5]"
+        "(//button[@type='button'])[10]"
     )
     USERS_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[3]"
+        "(//button[@type='button'])[8]"
     )
     USERS_RIGHT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[4]"
+        "(//button[@type='button'])[9]"
     )
       #------------------------ALLWORKS------------------------------------
 
@@ -804,106 +933,101 @@ class HomePage:
     ###---------------GT_SUMMARY Page--------------------------------------
 
     GT_SUMMARY = (
-        By.XPATH,
-        "//span[normalize-space()='Summary']"
-    )
-
+            By.XPATH,
+            "//span[normalize-space()='Summary']"
+        )
+    
     GT_TOTAL_ISSUES = (
-        By.XPATH,
-        "//mat-card[contains(@class,'kpi-card') and contains(@class,'total')]"
-    )
-
+            By.XPATH,
+            "//div[text()=' Total Issues ']"
+        )
+    
     GT_OPEN_ISSUES = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card open']"
-    )
-
-    GT_CLOSED_STATUS = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card closed']"
-    )
-
+            By.XPATH,
+            "//div[text()=' Open Issues ']"
+        )
+    
+    GT_COMPLETED_STATUS = (
+            By.XPATH,
+            "//div[text()=' Completed ']"
+        )
+    
     GT_UPDATED_STATUS = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card overdue']"
-    )
-
+            By.XPATH,
+            "//div[text()=' Recently Updated ']"
+        )
+    
     GT_DATE_FILTER = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
-    )
+            By.XPATH,
+            "//span[text()=' Date Filter ']"
+        )
     GT_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger export-btn mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base']"
-    )
+            By.XPATH,
+            "//span[text()=' Export ']"
+        )
     GT_ISSUE_STATUS = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[1]"
-    )
+            By.XPATH,
+            "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[1]"
+        )
     GT_PRIORITY_BREAKDOWN = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[2]"
-    )
+            By.XPATH,
+            "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[2]"
+        )
     GT_PRIORITY_SPLIT = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[3]"
-    )
+            By.XPATH,
+            "(//mat-card[contains(@class,'chart-card')])[3]"
+        )
     GT_ISSUE_TREND = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[4]"
-    )
+            By.XPATH,
+            "//mat-card[@class='mat-mdc-card mdc-card chart-card large']"
+        )
     GT_COMPLETION_RATE = (
-        By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[5]"
-    )
+            By.XPATH,
+            "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[5]"
+        )
     GT_TEAM_WORKLOAD = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[6]"
-    )
-    
+            By.XPATH,
+            "(//mat-card[contains(@class,'chart-card')])[6]"
+        )
+        
     GT_CYCLE_TIME_DISTRIBUTION = (
-        By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[7]"
-    )
-    
+            By.XPATH,
+            "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[7]"
+        )
+        
     GT_ASSIGNE_VS_TRACKER = (
-        By.XPATH,
-        "//mat-card[contains(@class,'table-card')]"
-    )
-
+            By.XPATH,
+            "(//section[@class='section'])[3]"
+        )
+        
     GT_DATE_FILTER_RADIO_BTN = (
-        By.XPATH,
-        "(//input[@type='radio'])[1]"
-    )
-    
+            By.XPATH,
+            "(//input[@type='radio'])[1]"
+        )
+        
     GT_UPDATE_BTN = (
-        By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
-    )
-    
-    GT_DATE_FILTER_CLOSE_CLICK = (
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+            By.XPATH,
+            "//span[text()=' Update ']"
+        )
         
-    )
     GT_EXPORT_BTN = (
-        
-        By.XPATH,
-         "//button[contains(@class,'export-btn')]"
-    )
-    GT_EXPORT_CLOSE_CLICK = (
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']")
-        
+          
+            By.XPATH,
+             "//button[contains(@class,'export-btn')]"
+        )
     GT_EXPORT_AS_CSV_BTN = (
-        By.XPATH,
-        "//button[contains(@class,'mat-mdc-menu-item') and .//span[contains(text(),'Export as CSV')]]"
-    )
+            By.XPATH,
+            "//span[text()=' Export CSV ']"
+        )
+        
     GT_EXPORT_AS_HTML_BTN = (
-        By.XPATH,
-        "//button[contains(@class,'mat-mdc-menu-item') and .//span[contains(text(),'Export as HTML')]]"
+            By.XPATH,
+            "//span[text()=' Export HTML ']"
+        )
+    GT_CLICK_ON_SUMMARY_PAGE = (
+            By.XPATH,
+            "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
     )
-    
     #-----------------GT_REPORTS---------------------------------
     
     GT_REPORTS = (
@@ -937,19 +1061,19 @@ class HomePage:
     )
     GT_REPORTS_FULL_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[4]"
+        "(//button[@type='button'])[9]"
     )
     GT_REPORTS_RIGHT_FULL_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[7]"
+        "(//button[@type='button'])[12]"
     )
     GT_REPORTS_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[5]"
+        "(//button[@type='button'])[10]"
     )
     GT_REPORTS_RIGHT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[6]"
+        "(//button[@type='button'])[11]"
     )
     GT_REPORTS_EXPORT_EXCEL_BTN = (
         By.XPATH,
@@ -977,268 +1101,382 @@ class HomePage:
     #-----------------------GT_LISTS-----------------------------------------
     
     GT_LISTS_BTN = (
-        By.XPATH,
-        "//span[normalize-space()='Lists']"
-    )
+            By.XPATH,
+            "//span[normalize-space()='Lists']"
+        )
     GT_LISTS_SEARCH_ISSUES = (
-        By.XPATH,
-        "//input[@placeholder='Search Issues']"
-    )
-    
-    GT_LIST_CHECKBOX_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']"
-    )
-    
+            By.XPATH,
+            "//input[@placeholder='Search Issues']"
+        )
+        
+    GT_LISTS_CHECKBOX_BTN = (
+            By.XPATH,
+            "//button[@class='mat-mdc-menu-trigger mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']"
+        )
+        
     GT_LISTS_CREATE_BTN = (
-        By.XPATH,
-        "//button[@class='btn btn-success create-btn']"
-    )
+            By.XPATH,
+            "//button[@class='btn btn-success create-btn ng-star-inserted']"
+        )
     GT_LISTS_TASK_BTN = (
-        By.XPATH,
-        "//button[@class='btn task-btn']"
-    )
-
+            By.XPATH,
+            "//button[@class='btn task-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_BUG_BTN = (
-        By.XPATH,
-        "//button[contains(@class,'bug-btn')]"
-    )
-
+            By.XPATH,
+            "//button[@class='btn bug-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_PROD_BUG = (
-        By.XPATH,
-        "//button[@class='btn prod-btn']"
-    )
-
+            By.XPATH,
+            "//button[@class='btn prod-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_CR_BTN = (
-        By.XPATH,
-        "//button[@class='btn cr-btn']"
-    )
-
+            By.XPATH,
+            "//button[@class='btn cr-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_STORY_BTN = (
-        By.XPATH,
-        "//button[@class='btn story-btn']"
-    )
-
+            By.XPATH,
+            "//button[@class='btn story-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_EPIC_BTN = (
-        By.XPATH,
-        "//button[@class='btn epic-btn']"
-    )
-
+            By.XPATH,
+            "//button[@class='btn epic-btn ng-star-inserted']"
+        )
+    
     GT_LISTS_CLOSE_ICON = (
-        By.XPATH,
-        "//button[@class='close-btn']"
-    )
-    
+            By.XPATH,
+            "//button[@class='close-btn']"
+        )
+        
     GT_LISTS_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-button mdc-button--unelevated mat-mdc-unelevated-button mat-primary mat-mdc-button-base']"
-    )
-    GT_LISTS_ITEMS_PER_PAGE = (
-        By.XPATH,
-        "//mat-form-field[contains(@class,'mat-mdc-paginator-page-size-select')]"
-    )
-    
-    GT_LISTS_FULL_LEFT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[2]"
-    )
-    GT_LISTS_FULL_RIGHT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[5]"
-    )
-    
-    GT_LISTS_LEFT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[3]"
-    )
-    
-    GT_LISTS_RIGHT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[4]"
-    )
+            By.XPATH,
+            "//span[text()=' Export ']"
+        )
     GT_LISTS_EXPORT_CSV_DEF = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[1]"
+            By.XPATH,
+            "(//button[@role='menuitem'])[1]"
+            
+        )
         
-    )
-    
     GT_LISTS_EXPORT_HTML_DEF = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[2]"
-    )
-    
+            By.XPATH,
+            "(//button[@role='menuitem'])[2]"
+        )
+        
     GT_LISTS_EXPORT_CSV_ALL_FIELDS = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[3]"
-        
-    )
+            By.XPATH,
+            "(//button[@role='menuitem'])[3]"
+            
+        )
     GT_LISTS_EXPORT_HTML_ALL_FIELDS = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[4]"
-        
-    )
+            By.XPATH,
+            "(//button[@role='menuitem'])[4]"
+            
+        )
     GT_LISTS_EXPORT_CLOSE_CLICK   =(
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+            By.XPATH,
+            "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+            
+        )
         
-    )
-    
+    GT_LISTS_ITEMS_PER_PAGE = (
+            By.XPATH,
+            "//mat-form-field[contains(@class,'mat-mdc-paginator-page-size-select')]"
+        )
+        
+    GT_LISTS_FULL_LEFT_NAVIGATION_BTN = (
+            By.XPATH,
+            "(//button[@type='button'])[7]"
+        )
+    GT_LISTS_FULL_RIGHT_NAVIGATION_BTN = (
+            By.XPATH,
+            "(//button[@type='button'])[10]"
+        )
+        
+    GT_LISTS_LEFT_NAVIGATION_BTN = (
+            By.XPATH,
+            "(//button[@type='button'])[8]"
+        )
+        
+    GT_LISTS_RIGHT_NAVIGATION_BTN = (
+            By.XPATH,
+            "(//button[@type='button'])[9]"
+        )
+        
     #------------------------GT_TIMESHEETS-----------------------------------------------
 
     GT_TIMESHEETS_BTN = (
-        By.XPATH,
-        "//span[normalize-space()='Timesheets']"
-    )
-    
+            By.XPATH,
+            "//span[normalize-space()='Timesheets']"
+        )
+        
     GT_TIMESHEETS_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger btn btn-success px-3 py-2']"
-    )
+            By.XPATH,
+            "//button[text()=' Export ']"
+        )
     GT_TIME_SHEETS_EXPORT_DOWNLOAD_AS_EXCEL = (
-        By.XPATH,
-        "//span[text()=' Download as Excel ']"
-        
-    )
+            By.XPATH,
+            "//span[text()=' Download as Excel ']"
+            
+        )
     GT_TIME_SHEETS_EXPORT_DOWNLOAD_AS_HTML = (
-        By.XPATH,
-        "//span[text()=' Download as HTML ']"
-        
-    )
+            By.XPATH,
+            "//span[text()=' Download as HTML ']"
+            
+        )
     GT_TIMESHEETS_EXPORT_CLOSE_CLICK  = (
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
-    )
-   
+            By.XPATH,
+            "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+        )
     GT_TIMESHEETS_PROJECT_LEFT_NAV_BTN = (
-        By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[1]"
-    )
-
+            By.XPATH,
+            "(//button[@type='button'])[7]"
+        )
+    
     GT_TIMESHEETS_PROJECT_RIGHT_NAV_BTN = (
-        By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[2]"
-    )
+            By.XPATH,
+            "(//button[@type='button'])[8]"
+        )
+    GT_TIMESHEETS_LOG_BUTTON   = (
+            
+            By.XPATH,
+            "(//button[@class='add-btn'])[1]"
+        )
     GT_TIMESHEETS_APPROVAL = (
-        By.XPATH,
-        "//span[text()='Approvals']"
-    )
+            By.XPATH,
+            "//span[text()='Approvals']"
+        )
     GT_TIMESHEETS_READY_TO_SUBMIT = (
-        By.XPATH,
-        "(//div[@class='approval-box mb-4'])[1]"
-        
-    )
+            By.XPATH,
+            "(//div[@class='approval-box mb-4'])[1]"
+            
+        )
     GT_TIMESHEETS_WAITING_FOR_APPROVAL = (
-        By.XPATH,
-        "(//div[@class='approval-box mb-4'])[2]"
-        
-    )
+            By.XPATH,
+            "(//div[@class='approval-box mb-4'])[2]"
+            
+        )
     GT_TIMESHEETS_APPROVED = (
-        By.XPATH,
-        "//div[@class='approval-box']"
-    )
+            By.XPATH,
+            "//div[@class='approval-box']"
+        )
     GT_TIMESHEETS_PROJECT_ISSUE = (
-        By.XPATH,
-        "//div[@class='card border']"
-    )
-    GT_TIMESHEETS_TIMESHEET_CARD = (
-        By.XPATH,
-        "//div[@class='timesheet-card']"
-    )
+            By.XPATH,
+            "//div[@class='week-card ng-star-inserted']"
+        )
+    GT_TIMESHEETS_ISSUE_ACTIVITY = (
+            By.XPATH,
+            "//div[@class='timesheet-card ng-star-inserted']"
+        )
     GT_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN = (
-        By.XPATH,
-        "//button[@class='btn btn-light btn-sm me-2']"
-    )
+            By.XPATH,
+            "//button[@class='btn btn-light btn-sm me-2']"
+        )
     GT_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN = (
+            By.XPATH,
+            "//button[@class='btn btn-light btn-sm ms-2']"
+        )    
+    GT_TIMESHEETS_LOGTIME_ISSUES_DRPDWN = (
+            By.XPATH,
+            
+            "(//mat-select[@role='combobox'])[2]")
+        
+    GT_TIMESHEETS_LOGTIME_CLOSE_CLICK = (
+            By.XPATH,
+            "//div[@class='cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing']")
+           
+    GT_TIMESHEETS_DATE_FIELD = (
+            By.XPATH,
+            "(//div[@class='field-group half'])[1]"
+            )
+        
+    GT_TIMESHEETS_LOGTIME_BTN = (
+          By.XPATH,
+          "//button[text()=' Log ']"
+        )
+            
+    GT_TIMESHEETS_ACTIVITY_DROPDOWN = (
+            By.XPATH,
+            "(//div[@class='field-group half'])[2]") 
+        
+    GT_TIMESHEETS_START_TIME = ( 
+            By.XPATH,
+            "//input[@id='startTime']")
+        
+    GT_TIMESHEETS_END_TIME = (
+            By.XPATH,
+            "//input[@id='endTime']")
+        
+    GT_TIMESHEETS_TIME_SPENT = (
+            By.XPATH,
+            "//input[@id='hours']"
+            
+        )
+         
+    GT_TIMESHEETS_WORK_DESCRIPTION = (
+            By.XPATH,
+            "//textarea[@id='comments']"
+        )    
+    GT_TIMESHEETS_CANCEL_BTN = (
+            By.XPATH,
+            "//button[@class='btn-ghost']"
+        )                     
+    GT_TIMESHEETS_APPROVAL_PAGE_PREVIOUSWEEK_NAVIGATION_BTN = (
+            By.XPATH,
+            "//button[@class='btn btn-light btn-sm me-2']"
+        )                                     
+    GT_TIMESHEETS_APPROVAL_PAGE_NEXTWEEK_NAVIGATION_BTN = (    
         By.XPATH,
         "//button[@class='btn btn-light btn-sm ms-2']"
-    )    
-   
+        )
+    GT_TIMESHEETS_APPROVAL_READY_TO_SUBMIT = (
+            By.XPATH,
+            "(//div[@class='approval-box mb-4'])[1]")
+        
+    GT_TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL = (
+           By.XPATH,    
+        
+        "(//div[@class='approval-box mb-4'])[2]")
+        
+    GT_TIMESHEETS_APPROVAL_APPROVED_STATUS = (
+            
+            By.XPATH,
+            "//div[@class='approval-box']"
+         )
+        
+    GT_TEAM_TIMESHEETS_BTN = (
+            By.XPATH,
+            "(//span[@class='mdc-tab__text-label'])[3]"
+        )
+    GT_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN = (
+            By.XPATH,
+            "//button[@aria-label='Previous week']"
+        )
+    GT_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN = (
+            
+            By.XPATH,
+            "//button[@aria-label='Next week']"
+        )
+    GT_TEAM_TIMESHEETS_THISWEEK_BTN = (
+             By.XPATH,
+             "//button[text()='This week']")
+       
+    GT_TEAM_TIMESHEETS_EXPORTTEAM_BTN = (
+            By.XPATH,
+            "//span[text()='Export team']"
+        )  
+           
+    GT_TEAM_TIMESHEETS_TEAM_MEMBERS =(
+            
+            By.XPATH,
+            "(//div[@class='summary-item'])[1]"
+            
+        ) 
+    GT_TEAM_TIMESHEETS_ENTRIES = (
+            By.XPATH,
+            "(//div[@class='summary-item'])[2]"
+        )   
+         
+    GT_TEAM_TIMESHEETS_TOTAL_HOURS = (
+            By.XPATH,
+            "//span[text()='Total hours']"  
+        )
+        
+    GT_TEAM_TIMESHEETS_MEMBER_LIST = (
+            By.XPATH,
+            "//div[@class='grid-card']"
+        )
+        
    
     #--------------------Users-------------------------------------
 
     GT_USERS_BTN = (
-        By.XPATH,
-        "//span[normalize-space()='Users']"
-    )
-
+            By.XPATH,
+            "//span[text()='Users']"
+        )
+    
     GT_USERS_SEARCH_FIELD = (
-        By.XPATH,
-        "//input[@placeholder='Search ']"
-    )
+            By.XPATH,
+            "//input[@placeholder='Search ']"
+        )
     GT_USERS_ADD_USER_BTN = (
-        By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
-    )
-    
+            By.XPATH,
+            "//span[text()=' Add User ']"
+        )
+        
     GT_USERS_CREATE_NEWUSER_USRNAME = (
-        By.XPATH,
-        "(//input[@type='text'])[1]"
-    )
+            By.XPATH,
+            "(//input[@type='text'])[1]"
+        )
     GT_USERS_CREATE_NEWUSER_PWD = (
-        By.XPATH,
-        "//input[@type='password']"
-    )
-
+            By.XPATH,
+            "//input[@type='password']"
+        )
+    
     GT_USERS_EMP_USERNAME = (
-        By.XPATH,
-        "(//input[@type='text'])[2]"
-    )
-    
+            By.XPATH,
+            "(//input[@type='text'])[2]"
+        )
+        
     GT_USERS_EMP_EMAIL = (
-        By.XPATH,
-        "//input[@type='email']"
-    )
-    
+            By.XPATH,
+            "//input[@type='email']"
+        )
+        
     GT_USERS_EMP_TEL_NO = (
-        By.XPATH,
-        "//input[@type='tel']"
-    )
-
+            By.XPATH,
+            "//input[@type='tel']"
+        )
+    
     GT_USERS_ASSGN_PROJECT_DROPDWN = (
-        By.XPATH,
-        "(//mat-select)[1]"
-    )
-    
+            By.XPATH,
+            "(//mat-select)[1]"
+        )
+        
     GT_USERS_ASSGN_PROJ_ROLE = (
-        By.XPATH,
-        "(//mat-select)[2]"
-    )
-    
+            By.XPATH,
+            "(//mat-select)[2]"
+        )
+        
     GT_USERS_CREATE_USER_BTN = (
-        By.XPATH,
-        "//button[@class='btn-submit']"
-    )
+            By.XPATH,
+            "//button[@class='btn-submit']"
+        )
     GT_USERS_CANCEL_BTN = (
-        By.XPATH,
-        "//button[@class='btn-cancel']"
-    )
-    
+            By.XPATH,
+            "//button[@class='btn-cancel']"
+        )
+        
     GT_USERS_BACK_BTN = (
-        By.XPATH,
-        "//button[@class='back-btn']"
-    )
+            By.XPATH,
+            "//button[@class='back-btn']"
+        )
     GT_USERS_PAGINATOR_DRPDWN = (
-        By.XPATH,
-        "//div[@class='mat-mdc-paginator-touch-target']"
-    )
-    
+            By.XPATH,
+            "//div[@class='mat-mdc-paginator-touch-target']"
+        )
+        
     GT_USERS_FULL_LEFT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[2]"
-    )
+            By.XPATH,
+            "(//button[@type='button'])[7]"
+        )
     GT_USERS_FULL_RIGHT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[5]"
-    )
+            By.XPATH,
+            "(//button[@type='button'])[10]"
+        )
     GT_USERS_LEFT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[3]"
-    )
+            By.XPATH,
+            "(//button[@type='button'])[8]"
+        )
     GT_USERS_RIGHT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[4]"
-    )
-    
+            By.XPATH,
+            "(//button[@type='button'])[9]"
+        )
     
     #--------------------------------Bugs Board-------------------------------------------
     
@@ -1298,99 +1536,102 @@ class HomePage:
     )
     #------------------BUGS SUMMARY -------------------------
     BUGS_SUMMARY = (
-        By.XPATH,
-        "//span[normalize-space()='Summary']"
-    )
-
-    BUGS_TOTAL_ISSUES = (
-        By.XPATH,
-        "//mat-card[contains(@class,'kpi-card') and contains(@class,'total')]"
-    )
-
-    BUGS_OPEN_ISSUES = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card open']"
-    )
-
-    BUGS_CLOSED_STATUS = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card closed']"
-    )
-
-    BUGS_UPDATED_STATUS = (
-        By.XPATH,
-        "//mat-card[@class='mat-mdc-card mdc-card kpi-card overdue']"
-    )
-
-    BUGS_DATE_FILTER = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
-    )
-    BUGS_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger export-btn mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base']"
-    )
-    BUGS_ISSUE_STATUS = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[1]"
-    )
-    BUGS_PRIORITY_BREAKDOWN = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[2]"
-    )
-    BUGS_PRIORITY_SPLIT = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[3]"
-    )
-    BUGS_ISSUE_TREND = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[4]"
-    )
-    BUGS_COMPLETION_RATE = (
-        By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[5]"
-    )
-    BUGS_TEAM_WORKLOAD = (
-        By.XPATH,
-        "(//mat-card[contains(@class,'chart-card')])[6]"
-    )
-    
-    BUGS_CYCLE_TIME_DISTRIBUTION = (
-        By.XPATH,
-        "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[7]"
-    )
-    
-    BUGS_ASSIGNE_VS_TRACKER = (
-        By.XPATH,
-        "//mat-card[contains(@class,'table-card')]"
-    )
-
-    BUGS_DATE_FILTER_RADIO_BTN = (
-        By.XPATH,
-        "(//input[@type='radio'])[1]"
-    )
-    
-    BUGS_UPDATE_BTN = (
-        By.XPATH,
-        "//span[text()=' Update ']"
-    )
-    BUGS_EXPORT_BTN = (
+                By.XPATH,
+                "//span[normalize-space()='Summary']"
+            )
         
-        By.XPATH,
-         "//button[contains(@class,'export-btn')]"
-    )
+    BUGS_TOTAL_ISSUES = (
+                By.XPATH,
+                "//div[text()=' Total Issues ']"
+            )
+        
+    BUGS_OPEN_ISSUES = (
+                By.XPATH,
+                "//div[text()=' Open Issues ']"
+            )
+        
+    BUGS_COMPLETED_STATUS = (
+                By.XPATH,
+                "//div[text()=' Completed ']"
+            )
+        
+    BUGS_UPDATED_STATUS = (
+                By.XPATH,
+                "//div[text()=' Recently Updated ']"
+            )
+        
+    BUGS_DATE_FILTER = (
+                By.XPATH,
+                "//span[text()=' Date Filter ']"
+            )
+    BUGS_EXPORT_BTN = (
+                By.XPATH,
+                "//span[text()=' Export ']"
+            )
+    BUGS_ISSUE_STATUS = (
+                By.XPATH,
+                "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[1]"
+            )
+    BUGS_PRIORITY_BREAKDOWN = (
+                By.XPATH,
+                "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[2]"
+            )
+    BUGS_PRIORITY_SPLIT = (
+                By.XPATH,
+                "(//mat-card[contains(@class,'chart-card')])[3]"
+            )
+    BUGS_ISSUE_TREND = (
+                By.XPATH,
+                "//mat-card[@class='mat-mdc-card mdc-card chart-card large']"
+            )
+    BUGS_COMPLETION_RATE = (
+                By.XPATH,
+                "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[5]"
+            )
+    BUGS_TEAM_WORKLOAD = (
+                By.XPATH,
+                "(//mat-card[contains(@class,'chart-card')])[6]"
+            )
+            
+    BUGS_CYCLE_TIME_DISTRIBUTION = (
+                By.XPATH,
+                "(//mat-card[@class='mat-mdc-card mdc-card chart-card'])[7]"
+            )
+            
+    BUGS_ASSIGNE_VS_TRACKER = (
+                By.XPATH,
+                "(//section[@class='section'])[3]"
+            )
+            
+    BUGS_DATE_FILTER_RADIO_BTN = (
+                By.XPATH,
+                "(//input[@type='radio'])[1]"
+            )
+            
+    BUGS_UPDATE_BTN = (
+                By.XPATH,
+                "//span[text()=' Update ']"
+            )
+            
+    BUGS_EXPORT_BTN = (
+              
+                By.XPATH,
+                 "//button[contains(@class,'export-btn')]"
+            )
     BUGS_EXPORT_AS_CSV_BTN = (
-        By.XPATH,
-        "//span[text()='Export as CSV']"
-    )
+                By.XPATH,
+                "//span[text()=' Export CSV ']"
+            )
+            
     BUGS_EXPORT_AS_HTML_BTN = (
-        By.XPATH,
-        "//span[text()='Export as HTML']"
-    )
-    BUGS_SUMMARY_CLOSE_CLICK = (
-         By.XPATH,
-         "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
-    )
+                By.XPATH,
+                "//span[text()=' Export HTML ']"
+            )
+    BUGS_CLICK_ON_SUMMARY_PAGE = (
+                By.XPATH,
+                "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+        )
+       
     # --------------BUGS ALLWORKS Button ---------------------------------------
     
     BUGS_ALLWORKS_BTN = (
@@ -1431,19 +1672,19 @@ class HomePage:
     )
     BUGS_REPORTS_FULL_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[4]"
+        "(//button[@type='button'])[9]"
     )
     BUGS_REPORTS_RIGHT_FULL_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[7]"
+        "(//button[@type='button'])[12]"
     )
     BUGS_REPORTS_LEFT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[5]"
+        "(//button[@type='button'])[10]"
     )
     BUGS_REPORTS_RIGHT_NAVIGATE_BTN = (
         By.XPATH,
-        "(//button[@type='button'])[6]"
+        "(//button[@type='button'])[11]"
     )
     BUGS_REPORTS_EXPORT_EXCEL_BTN = (
         By.XPATH,
@@ -1467,270 +1708,406 @@ class HomePage:
         By.XPATH,
         "//span[normalize-space()='Lists']"
     )
+    BUGS_LISTS_BTN = (
+               By.XPATH,
+               "//span[normalize-space()='Lists']"
+           )
     BUGS_LISTS_SEARCH_ISSUES = (
-        By.XPATH,
-        "//input[@placeholder='Search Issues']"
-    )
-    
-    BUGS_LIST_CHECKBOX_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']"
-    )
-    
+               By.XPATH,
+               "//input[@placeholder='Search Issues']"
+           )
+           
+    BUGS_LISTS_CHECKBOX_BTN = (
+               By.XPATH,
+               "//button[@class='mat-mdc-menu-trigger mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']"
+           )
+           
     BUGS_LISTS_CREATE_BTN = (
-        By.XPATH,
-        "//button[@class='btn btn-success create-btn']"
-    )
+               By.XPATH,
+               "//button[@class='btn btn-success create-btn ng-star-inserted']"
+           )
     BUGS_LISTS_TASK_BTN = (
-        By.XPATH,
-        "//button[@class='btn task-btn']"
-    )
-
+               By.XPATH,
+               "//button[@class='btn task-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_BUG_BTN = (
-        By.XPATH,
-        "//button[contains(@class,'bug-btn')]"
-    )
-
+               By.XPATH,
+               "//button[@class='btn bug-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_PROD_BUG = (
-        By.XPATH,
-        "//button[@class='btn prod-btn']"
-    )
-
+               By.XPATH,
+               "//button[@class='btn prod-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_CR_BTN = (
-        By.XPATH,
-        "//button[@class='btn cr-btn']"
-    )
-
+               By.XPATH,
+               "//button[@class='btn cr-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_STORY_BTN = (
-        By.XPATH,
-        "//button[@class='btn story-btn']"
-    )
-
+               By.XPATH,
+               "//button[@class='btn story-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_EPIC_BTN = (
-        By.XPATH,
-        "//button[@class='btn epic-btn']"
-    )
-
+               By.XPATH,
+               "//button[@class='btn epic-btn ng-star-inserted']"
+           )
+       
     BUGS_LISTS_CLOSE_ICON = (
-        By.XPATH,
-        "//button[@class='close-btn']"
-    )
-    
+               By.XPATH,
+               "//button[@class='close-btn']"
+           )
+           
     BUGS_LISTS_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger mdc-button mdc-button--unelevated mat-mdc-unelevated-button mat-primary mat-mdc-button-base']"
-    )
-    BUGS_LISTS_PAGINATION = (
-        By.XPATH,
-        "//mat-form-field[contains(@class,'mat-mdc-paginator-page-size-select')]"
-    )
-    
-    BUGS_LISTS_FULL_LEFT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[2]"
-    )
-    BUGS_LISTS_FULL_RIGHT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[5]"
-    )
-    
-    BUGS_LISTS_LEFT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[3]"
-    )
-    
-    BUGS_LISTS_RIGHT_NAVIGATION_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[4]"
-    )
+               By.XPATH,
+               "//span[text()=' Export ']"
+           )
     BUGS_LISTS_EXPORT_CSV_DEF = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[1]"
-        
-    )
-    
+               By.XPATH,
+               "(//button[@role='menuitem'])[1]"
+               
+           )
+           
     BUGS_LISTS_EXPORT_HTML_DEF = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[2]"
-    )
-    
+               By.XPATH,
+               "(//button[@role='menuitem'])[2]"
+           )
+           
     BUGS_LISTS_EXPORT_CSV_ALL_FIELDS = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[3]"
-        
-    )
+               By.XPATH,
+               "(//button[@role='menuitem'])[3]"
+               
+           )
     BUGS_LISTS_EXPORT_HTML_ALL_FIELDS = (
-        By.XPATH,
-        "(//button[@role='menuitem'])[4]"
-        
-    )
+               By.XPATH,
+               "(//button[@role='menuitem'])[4]"
+               
+           )
     BUGS_LISTS_EXPORT_CLOSE_CLICK   =(
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+               By.XPATH,
+               "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+               
+           )
+           
+    BUGS_LISTS_ITEMS_PER_PAGE = (
+               By.XPATH,
+               "//mat-form-field[contains(@class,'mat-mdc-paginator-page-size-select')]"
+           )
+           
+    BUGS_LISTS_FULL_LEFT_NAVIGATION_BTN = (
+               By.XPATH,
+               "(//button[@type='button'])[7]"
+           )
+    BUGS_LISTS_FULL_RIGHT_NAVIGATION_BTN = (
+               By.XPATH,
+               "(//button[@type='button'])[10]"
+           )
+           
+    BUGS_LISTS_LEFT_NAVIGATION_BTN = (
+               By.XPATH,
+               "(//button[@type='button'])[8]"
+           )
+           
+    BUGS_LISTS_RIGHT_NAVIGATION_BTN = (
+               By.XPATH,
+               "(//button[@type='button'])[9]"
+           )
         
-    )
-    
     #------------------------BUGS_TIMESHEETS-----------------------------------------------
 
     BUGS_TIMESHEETS_BTN = (
-        By.XPATH,
-        "//span[normalize-space()='Timesheets']"
-    )
-    
+                By.XPATH,
+                "//span[normalize-space()='Timesheets']"
+            )
+            
     BUGS_TIMESHEETS_EXPORT_BTN = (
-        By.XPATH,
-        "//button[@class='mat-mdc-menu-trigger btn btn-success px-3 py-2']"
-    )
-    
-    BUGS_TIMESHEETS_PROJECT_LEFT_NAV_BTN = (
-        By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[1]"
-    )
-
-    BUGS_TIMESHEETS_PROJECT_RIGHT_NAV_BTN = (
-        By.XPATH,
-        "(//button[@class='btn btn-outline-secondary btn-sm rounded-circle'])[2]"
-    )
+                By.XPATH,
+                "//button[text()=' Export ']"
+            )
     BUGS_TIME_SHEETS_EXPORT_DOWNLOAD_AS_EXCEL = (
-        By.XPATH,
-        "//span[text()=' Download as Excel ']"
-        
-    )
+                By.XPATH,
+                "//span[text()=' Download as Excel ']"
+                
+            )
     BUGS_TIME_SHEETS_EXPORT_DOWNLOAD_AS_HTML = (
-        By.XPATH,
-        "//span[text()=' Download as HTML ']"
-        
-    )
+                By.XPATH,
+                "//span[text()=' Download as HTML ']"
+                
+            )
     BUGS_TIMESHEETS_EXPORT_CLOSE_CLICK  = (
-        By.XPATH,
-        "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
-    )
-   
+                By.XPATH,
+                "//div[@class='cdk-overlay-backdrop cdk-overlay-transparent-backdrop cdk-overlay-backdrop-showing']"
+            )
+    BUGS_TIMESHEETS_PROJECT_LEFT_NAV_BTN = (
+                By.XPATH,
+                "(//button[@type='button'])[7]"
+            )
+        
+    BUGS_TIMESHEETS_PROJECT_RIGHT_NAV_BTN = (
+                By.XPATH,
+                "(//button[@type='button'])[8]"
+            )
+    BUGS_TIMESHEETS_LOG_BUTTON   = (
+                
+                By.XPATH,
+                "(//button[@class='add-btn'])[1]"
+            )
     BUGS_TIMESHEETS_APPROVAL = (
-        By.XPATH,
-        "//span[text()='Approvals']"
-    )
+                By.XPATH,
+                "//span[text()='Approvals']"
+            )
     BUGS_TIMESHEETS_READY_TO_SUBMIT = (
-        By.XPATH,
-        "(//div[@class='approval-box mb-4'])[1]"
-        
-    )
+                By.XPATH,
+                "(//div[@class='approval-box mb-4'])[1]"
+                
+            )
     BUGS_TIMESHEETS_WAITING_FOR_APPROVAL = (
-        By.XPATH,
-        "(//div[@class='approval-box mb-4'])[2]"
-        
-    )
+                By.XPATH,
+                "(//div[@class='approval-box mb-4'])[2]"
+                
+            )
     BUGS_TIMESHEETS_APPROVED = (
-        By.XPATH,
-        "//div[@class='approval-box']"
-    )
+                By.XPATH,
+                "//div[@class='approval-box']"
+            )
     BUGS_TIMESHEETS_PROJECT_ISSUE = (
-        By.XPATH,
-        "//div[@class='card border']"
-    )
-    BUGS_TIMESHEETS_TIMESHEET_CARD = (
-        By.XPATH,
-        "//div[@class='timesheet-card']"
-    )
+                By.XPATH,
+                "//div[@class='week-card ng-star-inserted']"
+            )
+    BUGS_TIMESHEETS_ISSUE_ACTIVITY = (
+                By.XPATH,
+                "//div[@class='timesheet-card ng-star-inserted']"
+            )
     BUGS_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN = (
-        By.XPATH,
-        "//button[@class='btn btn-light btn-sm me-2']"
-    )
+                By.XPATH,
+                "//button[@class='btn btn-light btn-sm me-2']"
+            )
     BUGS_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN = (
-        By.XPATH,
-        "//button[@class='btn btn-light btn-sm ms-2']"
-    )    
+                By.XPATH,
+                "//button[@class='btn btn-light btn-sm ms-2']"
+            )    
+    BUGS_TIMESHEETS_LOGTIME_ISSUES_DRPDWN = (
+                By.XPATH,
+                
+                "(//mat-select[@role='combobox'])[2]")
+            
+    BUGS_TIMESHEETS_LOGTIME_CLOSE_CLICK = (
+                By.XPATH,
+                "//div[@class='cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing']")
+               
+    BUGS_TIMESHEETS_DATE_FIELD = (
+                By.XPATH,
+                "(//div[@class='field-group half'])[1]"
+                )
+            
+    BUGS_TIMESHEETS_LOGTIME_BTN = (
+              By.XPATH,
+              "//button[text()=' Log ']"
+            )
+                
+    BUGS_TIMESHEETS_ACTIVITY_DROPDOWN = (
+                By.XPATH,
+                "(//div[@class='field-group half'])[2]") 
+            
+    BUGS_TIMESHEETS_START_TIME = ( 
+                By.XPATH,
+                "//input[@id='startTime']")
+            
+    BUGS_TIMESHEETS_END_TIME = (
+                By.XPATH,
+                "//input[@id='endTime']")
+            
+    BUGS_TIMESHEETS_TIME_SPENT = (
+                By.XPATH,
+                "//input[@id='hours']"
+                
+            )
+             
+    BUGS_TIMESHEETS_WORK_DESCRIPTION = (
+                By.XPATH,
+                "//textarea[@id='comments']"
+            )    
+    BUGS_TIMESHEETS_CANCEL_BTN = (
+                By.XPATH,
+                "//button[@class='btn-ghost']"
+            )                     
+    BUGS_TIMESHEETS_APPROVAL_PAGE_PREVIOUSWEEK_NAVIGATION_BTN = (
+                By.XPATH,
+                "//button[@class='btn btn-light btn-sm me-2']"
+            )                                     
+    BUGS_TIMESHEETS_APPROVAL_PAGE_NEXTWEEK_NAVIGATION_BTN = (    
+            By.XPATH,
+            "//button[@class='btn btn-light btn-sm ms-2']"
+            )
+    BUGS_TIMESHEETS_APPROVAL_READY_TO_SUBMIT = (
+                By.XPATH,
+                "(//div[@class='approval-box mb-4'])[1]")
+            
+    BUGS_TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL = (
+               By.XPATH,    
+            
+            "(//div[@class='approval-box mb-4'])[2]")
+            
+    BUGS_TIMESHEETS_APPROVAL_APPROVED_STATUS = (
+                
+                By.XPATH,
+                "//div[@class='approval-box']"
+             )
+            
+    BUGS_TEAM_TIMESHEETS_BTN = (
+                By.XPATH,
+                "(//span[@class='mdc-tab__text-label'])[3]"
+            )
+    BUGS_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN = (
+                By.XPATH,
+                "//button[@aria-label='Previous week']"
+            )
+    BUGS_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN = (
+                
+                By.XPATH,
+                "//button[@aria-label='Next week']"
+            )
+    BUGS_TEAM_TIMESHEETS_THISWEEK_BTN = (
+                 By.XPATH,
+                 "//button[text()='This week']")
+           
+    BUGS_TEAM_TIMESHEETS_EXPORTTEAM_BTN = (
+                By.XPATH,
+                "//span[text()='Export team']"
+            )  
+               
+    BUGS_TEAM_TIMESHEETS_TEAM_MEMBERS =(
+                
+                By.XPATH,
+                "(//div[@class='summary-item'])[1]"
+                
+            ) 
+    BUGS_TEAM_TIMESHEETS_ENTRIES = (
+                By.XPATH,
+                "(//div[@class='summary-item'])[2]"
+            )   
+             
+    BUGS_TEAM_TIMESHEETS_TOTAL_HOURS = (
+                By.XPATH,
+                "//span[text()='Total hours']"  
+            )
+            
+    BUGS_TEAM_TIMESHEETS_MEMBER_LIST = (
+                By.XPATH,
+                "//div[@class='grid-card']"
+            )
+           
    
     #--------------------BUGS_Users-------------------------------------
 
     BUGS_USERS_BTN = (
-        By.XPATH,
-        "//span[normalize-space()='Users']"
-    )
-
+                By.XPATH,
+                "//span[text()='Users']"
+            )
+        
     BUGS_USERS_SEARCH_FIELD = (
-        By.XPATH,
-        "//input[@placeholder='Search ']"
-    )
+                By.XPATH,
+                "//input[@placeholder='Search ']"
+            )
     BUGS_USERS_ADD_USER_BTN = (
-        By.XPATH,
-        "//button[@class='mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base']"
-    )
-    
+                By.XPATH,
+                "//span[text()=' Add User ']"
+            )
+            
     BUGS_USERS_CREATE_NEWUSER_USRNAME = (
-        By.XPATH,
-        "(//input[@type='text'])[1]"
-    )
+                By.XPATH,
+                "(//input[@type='text'])[1]"
+            )
     BUGS_USERS_CREATE_NEWUSER_PWD = (
-        By.XPATH,
-        "//input[@type='password']"
-    )
-
+                By.XPATH,
+                "//input[@type='password']"
+            )
+        
     BUGS_USERS_EMP_USERNAME = (
-        By.XPATH,
-        "(//input[@type='text'])[2]"
-    )
-    
+                By.XPATH,
+                "(//input[@type='text'])[2]"
+            )
+            
     BUGS_USERS_EMP_EMAIL = (
-        By.XPATH,
-        "//input[@type='email']"
-    )
-    
+                By.XPATH,
+                "//input[@type='email']"
+            )
+            
     BUGS_USERS_EMP_TEL_NO = (
-        By.XPATH,
-        "//input[@type='tel']"
-    )
-
+                By.XPATH,
+                "//input[@type='tel']"
+            )
+        
     BUGS_USERS_ASSGN_PROJECT_DROPDWN = (
-        By.XPATH,
-        "(//mat-select)[1]"
-    )
-    
+                By.XPATH,
+                "(//mat-select)[1]"
+            )
+            
     BUGS_USERS_ASSGN_PROJ_ROLE = (
-        By.XPATH,
-        "(//mat-select)[2]"
-    )
-    
+                By.XPATH,
+                "(//mat-select)[2]"
+            )
+            
     BUGS_USERS_CREATE_USER_BTN = (
-        By.XPATH,
-        "//button[@class='btn-submit']"
-    )
+                By.XPATH,
+                "//button[@class='btn-submit']"
+            )
     BUGS_USERS_CANCEL_BTN = (
-        By.XPATH,
-        "//button[@class='btn-cancel']"
-    )
-    
+                By.XPATH,
+                "//button[@class='btn-cancel']"
+            )
+            
     BUGS_USERS_BACK_BTN = (
-        By.XPATH,
-        "//button[@class='back-btn']"
-    )
+                By.XPATH,
+                "//button[@class='back-btn']"
+            )
     BUGS_USERS_PAGINATOR_DRPDWN = (
-        By.XPATH,
-        "//div[@class='mat-mdc-paginator-touch-target']"
-    )
-    
+                By.XPATH,
+                "//div[@class='mat-mdc-paginator-touch-target']"
+            )
+            
     BUGS_USERS_FULL_LEFT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[2]"
-    )
+                By.XPATH,
+                "(//button[@type='button'])[7]"
+            )
     BUGS_USERS_FULL_RIGHT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[5]"
-    )
+                By.XPATH,
+                "(//button[@type='button'])[10]"
+            )
     BUGS_USERS_LEFT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[3]"
-    )
+                By.XPATH,
+                "(//button[@type='button'])[8]"
+            )
     BUGS_USERS_RIGHT_NAVIGATE_BTN = (
-        By.XPATH,
-        "(//button[@type='button'])[4]"
-    )
-    
+                By.XPATH,
+                "(//button[@type='button'])[9]"
+            )
+        
+        
+        #########------------SCRUM BOARD TEAMS AND GT BOARD TEAMS----------------------------
     SCRUM_BOARD_TEAMS = [
     " GHMIS ",
     " OSS ",
+    " UPEX DISTRIBUTION AND PAYMENT TEAM ",
+    " UPEX PRODUCTION TEAM ",
+    " UPEX LICENSE TEAM ",
     " PDS ",
-    " UPEX DISTRIBUTION AND PAYMENT TEAM "
+    " UPEX BA TEAM ",
+    " UPEX QA TEAM ",
+    " AI/ML Team ",
+    " Redmine 2.0 migration ",
+    " CMS ",
+    " COOPTEX  ",
+    " Oasys Big Data Platform ",
+    " OASYS HRMS  ",
+    " Oasys Products ",
+    " OCX ",
+    " OASYS ERP 2.0 ",
+    " One Analytics ",
+    " Apex "
     
      ]
     
@@ -1739,7 +2116,11 @@ class HomePage:
         " IT Infra ",
         " IT Support ",
         " R&D Product Design & Development ",
-        " R&D Software & Support "," AI/ML "
+        " R&D Software & Support "," AI/ML ",
+        " OASYS GRC ",
+        " UI/UX Design Project ",
+        " Trichy IT ",
+        
         
         
     ]
@@ -1749,27 +2130,55 @@ class HomePage:
     def is_task_only_project(self):
         return self.selected_team in [
         " IT Infra ",
-        " IT Support "]
+        " IT Support ",
+        " UI/UX Design Project ",
+        " UPEX BA TEAM ",
+        " UPEX QA TEAM "]
         
 
 
     def is_task_bug_story_epic_project(self):
        return self.selected_team in [
        " R&D Product Design & Development ",
-        " R&D Software & Support ", " PDS "
+        " R&D Software & Support ",
+        " Trichy IT ",
+        " CMS ", 
+        " Apex ",
+        " COOPTEX  ",
+        " Oasys Big Data Platform ",
+        " OASYS ERP 2.0 ",
+        " Oasys Products ",
+        " OCX ",
     ]
+
+    def is_task_bug_story_epic_cr_project(self):
+            return self.selected_team in [
+                " PDS "
+            ]
+     
+    def is_task_bug_prodbug_project(self):
+            return self.selected_team in [
+                " AI/ML Team "]
 
 
     def is_all_tracker_project(self):
       return self.selected_team in [
         " GHMIS ",
          " OSS ",
-         " UPEX DISTRIBUTION AND PAYMENT TEAM "
+         " UPEX DISTRIBUTION AND PAYMENT TEAM ",
+         " One Analytics ",
+         " UPEX LICENSE TEAM ",
+         " UPEX PRODUCTION TEAM ",
+         " OASYS GRC ",
+         " Redmine 2.0 migration ",
+         " OASYS HRMS  ",
+         " OSS ",
            ]
       
     def select_filter_by_projects(self):
         
         time.sleep(Config.LONG_WAIT)
+        
         self.driver.find_element(*self.FILTER_BY_PROJECTS).click()
         
         self.driver.find_element(*self.DESELECT_ALL).click()
@@ -1808,6 +2217,7 @@ class HomePage:
    
     
     def verify_home_page(self):
+       
         time.sleep(Config.MEDIUM_WAIT)
         assert self.driver.find_element(*self.SCRUM_BOARD).is_displayed()
         assert self.driver.find_element(*self.GT_BOARD).is_displayed()
@@ -1844,6 +2254,12 @@ class HomePage:
 
        elif self.is_all_tracker_project():
         self.verify_all_trackers()
+        
+       elif self.is_task_bug_story_epic_cr_project():
+        self.verify_task_bug_story_epic_cr()    
+        
+       elif self.is_task_bug_prodbug_project():
+        self.verify_task_bug_prodbug()
 
        else:
         raise Exception(f"No tracker configuration found for {self.selected_team}")
@@ -1865,6 +2281,24 @@ class HomePage:
        assert self.driver.find_element(*self.EPIC_BTN).is_displayed()
 
        print(f"{self.selected_team} -> Task, Bug, Story and Epic verified.")
+    
+    
+    def verify_task_bug_story_epic_cr(self):
+    
+           assert self.driver.find_element(*self.TASK_BTN).is_displayed()
+           assert self.driver.find_element(*self.BUG_BTN).is_displayed()
+           assert self.driver.find_element(*self.STORY_BTN).is_displayed()
+           assert self.driver.find_element(*self.EPIC_BTN).is_displayed()
+           assert self.driver.find_element(*self.CR_BTN).is_displayed()    
+           print(f"{self.selected_team} -> Task, Bug, Story and Epic,cr verified")
+        
+    def verify_task_bug_prodbug(self):
+           assert self.driver.find_element(*self.TASK_BTN).is_displayed()
+           assert self.driver.find_element(*self.BUG_BTN).is_displayed()
+           assert self.driver.find_element(*self.PROD_BUG).is_displayed()
+           print(f"{self.selected_team} -> Task, Bug and Prod Bug verified.")
+    
+    
     
     
     def verify_all_trackers(self):
@@ -2004,7 +2438,7 @@ class HomePage:
 
         assert self.driver.find_element(*self.TOTAL_ISSUES).is_displayed()
         assert self.driver.find_element(*self.OPEN_ISSUES).is_displayed()
-        assert self.driver.find_element(*self.CLOSED_STATUS).is_displayed()
+        assert self.driver.find_element(*self.COMPLETED_STATUS).is_displayed()
         assert self.driver.find_element(*self.UPDATED_STATUS).is_displayed()
         assert self.driver.find_element(*self.DATE_FILTER).is_displayed()
         assert self.driver.find_element(*self.EXPORT_BTN).is_displayed()
@@ -2012,9 +2446,9 @@ class HomePage:
         assert self.driver.find_element(*self.PRIORITY_BREAKDOWN).is_displayed()
         assert self.driver.find_element(*self.PRIORITY_SPLIT).is_displayed()
         assert self.driver.find_element(*self.ISSUE_TREND).is_displayed()
-        assert self.driver.find_element(*self.COMPLETION_RATE).is_displayed()
-        assert self.driver.find_element(*self.TEAM_WORKLOAD).is_displayed()
-        assert self.driver.find_element(*self.CYCLE_TIME_DISTRIBUTION).is_displayed()
+        #assert self.driver.find_element(*self.COMPLETION_RATE).is_displayed()
+       # assert self.driver.find_element(*self.TEAM_WORKLOAD).is_displayed()
+        #assert self.driver.find_element(*self.CYCLE_TIME_DISTRIBUTION).is_displayed()
         assert self.driver.find_element(*self.ASSIGNE_VS_TRACKER).is_displayed()
         
         
@@ -2022,7 +2456,7 @@ class HomePage:
         
         time.sleep(Config.MEDIUM_WAIT)
         
-        self.driver.find_element(*self.DATE_FILTER_RADIO_BTN).is_displayed()
+       # self.driver.find_element(*self.DATE_FILTER_RADIO_BTN).is_displayed()
         
         self.driver.find_element(*self.UPDATE_BTN).is_displayed()
         
@@ -2036,8 +2470,35 @@ class HomePage:
         assert self.driver.find_element(*self.EXPORT_AS_HTML_BTN).is_displayed()
         
         self.driver.find_element(*self.CLICK_ON_SUMMARY_PAGE).click()
-
+        
+        
+        self.driver.find_element(*self.TOTAL_ISSUES).click()
+        
+        time.sleep(Config.LONG_WAIT)
+        
+        self.driver.back()
+        
+        time.sleep(Config.LONG_WAIT)
+        
+        self.driver.find_element(*self.OPEN_ISSUES).click()
+        
+        time.sleep(Config.LONG_WAIT)
+        
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+        
+        self.driver.find_element(*self.COMPLETED_STATUS).click()
+        
+        time.sleep(Config.LONG_WAIT)
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+        
+        self.driver.find_element(*self.UPDATED_STATUS).click()
+        time.sleep(Config.LONG_WAIT)
+        
+     
     def verify_backlog_module(self):
+        
 
         self.driver.find_element(*self.BACKLOG).click()
 
@@ -2047,10 +2508,10 @@ class HomePage:
         assert self.driver.find_element(*self.BACKLOG_CLOSED).is_displayed()
         assert self.driver.find_element(*self.BACKLOG_COMPLETE_SPRINT).is_displayed()
         assert self.driver.find_element(*self.BACKLOG_SPRINT_DETAILS_ICON).is_displayed()
-        assert self.driver.find_element(*self.BACKLOG_ADD_SPRINT).is_displayed()
+        assert self.driver.find_element(*self.BACKLOG_NEW_SPRINT).is_displayed()
         
         
-        self.driver.find_element(*self.BACKLOG_ADD_SPRINT).click()
+        self.driver.find_element(*self.BACKLOG_NEW_SPRINT).click()
 
         try:
             error = self.driver.find_element(
@@ -2116,10 +2577,18 @@ class HomePage:
         assert self.driver.find_element(*self.REPORTS_RIGHT_FULL_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.REPORTS_LEFT_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.REPORTS_RIGHT_NAVIGATE_BTN).is_displayed()
+        
+        self.driver.find_element(*self.REPORTS_EXPORT_BUTTON).click()
+        self.driver.find_element(*self.REPORTS_EXPORT_EXCEL_BTN).is_displayed()
+        self.driver.find_element(*self.REPORTS_EXPORT_AS_HTML_BTN).is_displayed()
+        self.driver.find_element(*self.REPORTS_EXPORT_CLOSE_CLICK).click()
 
     def verify_lists_module(self):
 
+
         self.driver.find_element(*self.LISTS_BTN).click()
+        
+        time.sleep(Config.MEDIUM_WAIT)
 
         WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located(self.LISTS_SEARCH_ISSUES)
@@ -2131,16 +2600,27 @@ class HomePage:
 
         self.driver.find_element(*self.LISTS_CREATE_BTN).click()
 
+        time.sleep(Config.MEDIUM_WAIT)
         WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located(self.LISTS_TASK_BTN)
         )
 
-        assert self.driver.find_element(*self.LISTS_TASK_BTN).is_displayed()
-        assert self.driver.find_element(*self.LISTS_BUG_BTN).is_displayed()
-        assert self.driver.find_element(*self.LISTS_EPIC_BTN).is_displayed()
-        assert self.driver.find_element(*self.LISTS_CR_BTN).is_displayed()
-        assert self.driver.find_element(*self.LISTS_PROD_BUG).is_displayed()
-        assert self.driver.find_element(*self.LISTS_STORY_BTN).is_displayed()
+        if self.is_task_only_project():
+         self.verify_task_only()
+
+        elif self.is_task_bug_story_epic_project():
+         self.verify_task_bug_story_epic()
+ 
+        elif self.is_task_bug_story_epic_cr_project():
+         
+         self.verify_task_bug_story_epic_cr() 
+         
+        elif self.is_all_tracker_project():
+         self.verify_all_trackers()
+
+        else:
+         raise Exception(f"No tracker configuration found for {self.selected_team}")
+       
 
         self.driver.find_element(*self.LISTS_CLOSE_ICON).click()
         
@@ -2186,44 +2666,76 @@ class HomePage:
         self.driver.execute_script("arguments[0].click();", timesheets_btn)
 
         
-        time.sleep(Config.MEDIUM_WAIT)
+        time.sleep(Config.LONG_WAIT)
         
         assert self.driver.find_element(*self.TIMESHEETS_PROJECT_ISSUE).is_displayed()
-        assert self.driver.find_element(*self.TIMESHEETS_TIMESHEET_CARD).is_displayed()
+        #(timesheet card is not there)assert self.driver.find_element(*self.TIMESHEETS_TIMESHEET_CARD).is_displayed()
         assert self.driver.find_element(*self.TIMESHEETS_PROJECT_LEFT_NAV_BTN).is_displayed()
         assert self.driver.find_element(*self.TIMESHEETS_PROJECT_RIGHT_NAV_BTN).is_displayed()
         
         
-        assert self.driver.find_element(*self.TIMESHEETS_PROJECT_LEFT_NAV_BTN).is_displayed()
-        assert self.driver.find_element(*self.TIMESHEETS_PROJECT_RIGHT_NAV_BTN).is_displayed()
         assert self.driver.find_element(*self.TIMESHEETS_APPROVAL).is_displayed()
-        assert self.driver.find_element(*self.TIMESHEETS_EXPORT_BTN).is_displayed()
         self.driver.find_element(*self.TIMESHEETS_PROJECT_LEFT_NAV_BTN).click()
         self.driver.find_element(*self.TIMESHEETS_PROJECT_RIGHT_NAV_BTN).click()
         
         time.sleep(Config.MEDIUM_WAIT)
        
-        self.driver.find_element(*self.TIMESHEETS_EXPORT_BTN).click()
-        assert self.driver.find_element(*self.TIME_SHEETS_EXPORT_DOWNLOAD_AS_EXCEL).is_displayed()
-        assert self.driver.find_element(*self.TIME_SHEETS_EXPORT_DOWNLOAD_AS_HTML).is_displayed()
-        self.driver.find_element(*self.TIMESHEETS_EXPORT_CLOSE_CLICK).click()
-        
- ## TIME SHEETS APPROVAL-------------------------
-    
-        self.driver.find_element(*self.TIMESHEETS_APPROVAL).click()
+        assert self.driver.find_element(*self.TIMESHEETS_LOG_BUTTON).is_displayed()
         
         time.sleep(Config.MEDIUM_WAIT)
         
-        assert self.driver.find_element(*self.TIMESHEETS_READY_TO_SUBMIT).is_displayed()
-        assert self.driver.find_element(*self.TIMESHEETS_WAITING_FOR_APPROVAL).is_displayed()
-        assert self.driver.find_element(*self.TIMESHEETS_APPROVED).is_displayed()
+        self.driver.find_element(*self.TIMESHEETS_LOG_BUTTON).click()
+        
+        time.sleep(Config.MEDIUM_WAIT)
+    
+        assert self.driver.find_element(*self.TIMESHEETS_LOGTIME_ISSUES_DRPDWN).is_displayed()
+       
+        time.sleep(Config.MEDIUM_WAIT)  
+        assert self.driver.find_element(*self.TIMESHEETS_DATE_FIELD).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_ACTIVITY_DROPDOWN).is_displayed()         
+        assert self.driver.find_element(*self.TIMESHEETS_START_TIME).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_END_TIME).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_TIME_SPENT).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_WORK_DESCRIPTION).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_LOGTIME_BTN).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_CANCEL_BTN).is_displayed()
+        
+        time.sleep(Config.MEDIUM_WAIT)
+        self.driver.find_element(*self.TIMESHEETS_CANCEL_BTN).click()
+        time.sleep(Config.MEDIUM_WAIT)
+        
+       
+####_---TIMESHEETS_APPROVAL MODULE---------------------------------------------
+
+        self.driver.find_element(*self.TIMESHEETS_APPROVAL).click()
+        time.sleep(Config.MEDIUM_WAIT)
         assert self.driver.find_element(*self.TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).is_displayed()
-        self.driver.find_element(*self.TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()
+        assert self.driver.find_element(*self.TIMESHEETS_APPROVAL_READY_TO_SUBMIT).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL).is_displayed()
+        assert self.driver.find_element(*self.TIMESHEETS_APPROVAL_APPROVED_STATUS).is_displayed()
         self.driver.find_element(*self.TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).click()
-
-
-
+        self.driver.find_element(*self.TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()  
+        
+        ####-------------------TEAM TIMESHEETS---------------------------------------------
+    
+        self.driver.find_element(*self.TEAM_TIMESHEETS_BTN).click()
+        
+        time.sleep(Config.MEDIUM_WAIT)
+        
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_THISWEEK_BTN).is_displayed()     
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_EXPORTTEAM_BTN).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_TEAM_MEMBERS).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_ENTRIES).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_TOTAL_HOURS).is_displayed()
+        assert self.driver.find_element(*self.TEAM_TIMESHEETS_MEMBER_LIST).is_displayed()
+       
+        self.driver.find_element(*self.TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).click()
+        self.driver.find_element(*self.TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).click()
+    
+    
     def verify_users_module(self):
 
         self.driver.find_element(*self.USERS_BTN).click()
@@ -2266,7 +2778,7 @@ class HomePage:
 
         assert self.driver.find_element(*self.GT_BOARD).is_displayed()
 
-        self.driver.find_element(*self.GT_BOARD).click()
+        #self.driver.find_element(*self.GT_BOARD).click()
 
         time.sleep(Config.MEDIUM_WAIT)
 
@@ -2297,6 +2809,8 @@ class HomePage:
    
     def open_gt_board(self):    
         
+        time.sleep(Config.MEDIUM_WAIT)
+        
         self.driver.find_element(*self.GT_BOARD).click()
         
         time.sleep(Config.MEDIUM_WAIT)
@@ -2307,9 +2821,11 @@ class HomePage:
 
         time.sleep(Config.LONG_WAIT)
 
+        time.sleep(Config.LONG_WAIT)
+        
         assert self.driver.find_element(*self.GT_TOTAL_ISSUES).is_displayed()
         assert self.driver.find_element(*self.GT_OPEN_ISSUES).is_displayed()
-        assert self.driver.find_element(*self.GT_CLOSED_STATUS).is_displayed()
+        assert self.driver.find_element(*self.GT_COMPLETED_STATUS).is_displayed()
         assert self.driver.find_element(*self.GT_UPDATED_STATUS).is_displayed()
         assert self.driver.find_element(*self.GT_DATE_FILTER).is_displayed()
         assert self.driver.find_element(*self.GT_EXPORT_BTN).is_displayed()
@@ -2317,34 +2833,56 @@ class HomePage:
         assert self.driver.find_element(*self.GT_PRIORITY_BREAKDOWN).is_displayed()
         assert self.driver.find_element(*self.GT_PRIORITY_SPLIT).is_displayed()
         assert self.driver.find_element(*self.GT_ISSUE_TREND).is_displayed()
-        assert self.driver.find_element(*self.GT_COMPLETION_RATE).is_displayed()
-        assert self.driver.find_element(*self.GT_TEAM_WORKLOAD).is_displayed()
-        assert self.driver.find_element(*self.GT_CYCLE_TIME_DISTRIBUTION).is_displayed()
-        assert self.driver.find_element(*self.GT_ASSIGNE_VS_TRACKER).is_displayed()
-
-
-        time.sleep(Config.MEDIUM_WAIT)
-        
+                #assert self.driver.find_element(*self.COMPLETION_RATE).is_displayed()
+               # assert self.driver.find_element(*self.TEAM_WORKLOAD).is_displayed()
+                #assert self.driver.find_element(*self.CYCLE_TIME_DISTRIBUTION).is_displayed()
+        assert self.driver.find_element(*self.ASSIGNE_VS_TRACKER).is_displayed()
+                
+                
         self.driver.find_element(*self.GT_DATE_FILTER).click()
-        
+                
         time.sleep(Config.MEDIUM_WAIT)
-        
-        self.driver.find_element(*self.GT_DATE_FILTER_RADIO_BTN).is_displayed()
-        
+                
+               # self.driver.find_element(*self.DATE_FILTER_RADIO_BTN).is_displayed()
+                
         self.driver.find_element(*self.GT_UPDATE_BTN).is_displayed()
-        
-        self.driver.find_element(*self.GT_DATE_FILTER_CLOSE_CLICK).click()
-        
+                
+        self.driver.find_element(*self.GT_CLICK_ON_SUMMARY_PAGE).click()
+                
         self.driver.find_element(*self.GT_EXPORT_BTN).click()
-        
+                
         time.sleep(Config.MEDIUM_WAIT)
-        
+                
         assert self.driver.find_element(*self.GT_EXPORT_AS_CSV_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_EXPORT_AS_HTML_BTN).is_displayed()
-        
-        self.driver.find_element(*self.GT_EXPORT_CLOSE_CLICK).click()
-        
-        
+                
+        self.driver.find_element(*self.GT_CLICK_ON_SUMMARY_PAGE).click()
+                
+                
+        self.driver.find_element(*self.GT_TOTAL_ISSUES).click()
+                
+        time.sleep(Config.LONG_WAIT)
+                
+        self.driver.back()
+                
+        time.sleep(Config.LONG_WAIT)
+                
+        self.driver.find_element(*self.GT_OPEN_ISSUES).click()
+                
+        time.sleep(Config.LONG_WAIT)
+                
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+                
+        self.driver.find_element(*self.GT_COMPLETED_STATUS).click()
+                
+        time.sleep(Config.LONG_WAIT)
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+                
+        self.driver.find_element(*self.GT_UPDATED_STATUS).click()
+        time.sleep(Config.LONG_WAIT)
+                
     def verify_gt_reports_module(self):
 
         self.driver.find_element(*self.GT_REPORTS).click()
@@ -2372,53 +2910,56 @@ class HomePage:
     def verify_gt_lists_module(self):
 
         self.driver.find_element(*self.GT_LISTS_BTN).click()
-
+                
+        time.sleep(Config.MEDIUM_WAIT)
+        
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located(self.GT_LISTS_SEARCH_ISSUES)
-        )
-
+                    EC.visibility_of_element_located(self.GT_LISTS_SEARCH_ISSUES)
+                )
+        
         assert self.driver.find_element(*self.GT_LISTS_SEARCH_ISSUES).is_displayed()
-        assert self.driver.find_element(*self.GT_LIST_CHECKBOX_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_CHECKBOX_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_LISTS_CREATE_BTN).is_displayed()
-
+        
         self.driver.find_element(*self.GT_LISTS_CREATE_BTN).click()
-
+        
+        time.sleep(Config.MEDIUM_WAIT)
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located(self.GT_LISTS_TASK_BTN)
-        )
-
-        if self.is_task_only_project():
-         self.verify_gt_task_only()
-
-        elif self.is_task_bug_story_epic_project():
-         self.verify_gt_task_bug_story_epic()
-
-        elif self.is_all_tracker_project():
-         self.verify_gt_all_trackers()
-
-        else:
-         raise Exception(f"No GT tracker configuration found for {self.selected_team}") 
+                    EC.visibility_of_element_located(self.GT_LISTS_TASK_BTN)
+                )
+        
+        assert self.driver.find_element(*self.GT_LISTS_TASK_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_BUG_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_EPIC_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_CR_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_PROD_BUG).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_STORY_BTN).is_displayed()
+        
         self.driver.find_element(*self.GT_LISTS_CLOSE_ICON).click()
-
+                
+        time.sleep(Config.MEDIUM_WAIT)
+                
+        
         assert self.driver.find_element(*self.GT_LISTS_EXPORT_BTN).is_displayed()
-        self.driver.find_element(*self.GT_LISTS_EXPORT_BTN).click()
-        
-        assert self.driver.find_element(*self.GT_LISTS_EXPORT_CSV_DEF).is_displayed()
-        assert self.driver.find_element(*self.GT_LISTS_EXPORT_CSV_ALL_FIELDS).is_displayed()
-        assert self.driver.find_element(*self.GT_LISTS_EXPORT_HTML_ALL_FIELDS).is_displayed()
-        assert self.driver.find_element(*self.GT_LISTS_EXPORT_HTML_DEF).is_displayed()
-        self.driver.find_element(*self.GT_LISTS_EXPORT_CLOSE_CLICK).click()
-        
-        time.sleep(Config.LONG_WAIT)
-        
-        
         assert self.driver.find_element(*self.GT_LISTS_ITEMS_PER_PAGE).is_displayed()
         assert self.driver.find_element(*self.GT_LISTS_FULL_LEFT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_LISTS_FULL_RIGHT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_LISTS_LEFT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_LISTS_RIGHT_NAVIGATION_BTN).is_displayed()
         
+                
+        self.driver.find_element(*self.GT_LISTS_EXPORT_BTN).click()
+                
+        time.sleep(Config.MEDIUM_WAIT)
         
+        assert self.driver.find_element(*self.GT_LISTS_EXPORT_CSV_DEF).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_EXPORT_HTML_DEF).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_EXPORT_CSV_ALL_FIELDS).is_displayed()
+        assert self.driver.find_element(*self.GT_LISTS_EXPORT_HTML_ALL_FIELDS).is_displayed()
+                
+        self.driver.find_element(*self.GT_LISTS_EXPORT_CLOSE_CLICK).click()
+                
+                
         
     def verify_gt_task_only(self):
 
@@ -2452,50 +2993,88 @@ class HomePage:
         
     def verify_gt_timesheets_module(self):
 
-        timesheets_btn = self.driver.find_element(*self.GT_TIMESHEETS_BTN)
-        self.driver.execute_script("arguments[0].click();", timesheets_btn)
-
+        timesheets_btn1 = self.driver.find_element(*self.GT_TIMESHEETS_BTN)
+        self.driver.execute_script("arguments[0].click();", timesheets_btn1)
+        
+                
         time.sleep(Config.LONG_WAIT)
-
-        assert self.driver.find_element(*self.GT_TIMESHEETS_EXPORT_BTN).is_displayed()
-        self.driver.find_element(*self.GT_TIMESHEETS_EXPORT_BTN).click()
-        assert self.driver.find_element(*self.GT_TIME_SHEETS_EXPORT_DOWNLOAD_AS_EXCEL).is_displayed()
-        assert self.driver.find_element(*self.GT_TIME_SHEETS_EXPORT_DOWNLOAD_AS_HTML).is_displayed()
-        self.driver.find_element(*self.GT_TIMESHEETS_EXPORT_CLOSE_CLICK).click()
-        
-        time.sleep(Config.MEDIUM_WAIT)
-        
+                
         assert self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_ISSUE).is_displayed()
-        assert self.driver.find_element(*self.GT_TIMESHEETS_TIMESHEET_CARD).is_displayed()
-        
-        self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_LEFT_NAV_BTN).click()
-        self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).click()
-        
+                #(timesheet card is not there)assert self.driver.find_element(*self.TIMESHEETS_TIMESHEET_CARD).is_displayed()
         assert self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_LEFT_NAV_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).is_displayed()
+                
+                
         assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL).is_displayed()
+        self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_LEFT_NAV_BTN).click()
+        self.driver.find_element(*self.GT_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).click()
+                
+        time.sleep(Config.MEDIUM_WAIT)
+               
+        assert self.driver.find_element(*self.GT_TIMESHEETS_LOG_BUTTON).is_displayed()
+                
+        time.sleep(Config.MEDIUM_WAIT)
+                
+        self.driver.find_element(*self.GT_TIMESHEETS_LOG_BUTTON).click()
+                
+        time.sleep(Config.MEDIUM_WAIT)
+            
+        assert self.driver.find_element(*self.GT_TIMESHEETS_LOGTIME_ISSUES_DRPDWN).is_displayed()
+               
+        time.sleep(Config.MEDIUM_WAIT)  
+        assert self.driver.find_element(*self.GT_TIMESHEETS_DATE_FIELD).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_ACTIVITY_DROPDOWN).is_displayed()         
+        assert self.driver.find_element(*self.GT_TIMESHEETS_START_TIME).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_END_TIME).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_TIME_SPENT).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_WORK_DESCRIPTION).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_LOGTIME_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_CANCEL_BTN).is_displayed()
+                
+        time.sleep(Config.MEDIUM_WAIT)
+        self.driver.find_element(*self.GT_TIMESHEETS_CANCEL_BTN).click()
+        time.sleep(Config.MEDIUM_WAIT)
+                
+               
+        ####_---TIMESHEETS_APPROVAL MODULE---------------------------------------------
         
         self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL).click()
         time.sleep(Config.MEDIUM_WAIT)
-        
-        self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()
-        self.driver.find_element(*self.TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).click()
-        time.sleep(Config.MEDIUM_WAIT)
-        
         assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).is_displayed()
-        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).is_displayed() 
-        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVED).is_displayed()
-        assert self.driver.find_element(*self.GT_TIMESHEETS_READY_TO_SUBMIT).is_displayed()
-        assert self.driver.find_element(*self.GT_TIMESHEETS_WAITING_FOR_APPROVAL).is_displayed()
-       
+        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_READY_TO_SUBMIT).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL).is_displayed()
+        assert self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_APPROVED_STATUS).is_displayed()
+        self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).click()
+        self.driver.find_element(*self.GT_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()  
+                
+                ####-------------------TEAM TIMESHEETS---------------------------------------------
+            
+        self.driver.find_element(*self.GT_TEAM_TIMESHEETS_BTN).click()
+                
+        time.sleep(Config.MEDIUM_WAIT)
+                
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_THISWEEK_BTN).is_displayed()     
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_EXPORTTEAM_BTN).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_TEAM_MEMBERS).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_ENTRIES).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_TOTAL_HOURS).is_displayed()
+        assert self.driver.find_element(*self.GT_TEAM_TIMESHEETS_MEMBER_LIST).is_displayed()
+               
+        self.driver.find_element(*self.GT_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).click()
+        self.driver.find_element(*self.GT_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).click()
+            
+            
     def verify_gt_users_module(self):
 
         self.driver.find_element(*self.GT_USERS_BTN).click()
-
+        
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located(self.GT_USERS_SEARCH_FIELD)
-        )
-
+                    EC.visibility_of_element_located(self.GT_USERS_SEARCH_FIELD)
+                )
+        
         assert self.driver.find_element(*self.GT_USERS_SEARCH_FIELD).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_ADD_USER_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_PAGINATOR_DRPDWN).is_displayed()
@@ -2503,12 +3082,10 @@ class HomePage:
         assert self.driver.find_element(*self.GT_USERS_FULL_RIGHT_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_LEFT_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_RIGHT_NAVIGATE_BTN).is_displayed()
-        
-        
         self.driver.find_element(*self.GT_USERS_ADD_USER_BTN).click()
-
+        
         time.sleep(Config.LONG_WAIT)
-
+        
         assert self.driver.find_element(*self.GT_USERS_CREATE_NEWUSER_USRNAME).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_CREATE_NEWUSER_PWD).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_EMP_USERNAME).is_displayed()
@@ -2519,10 +3096,10 @@ class HomePage:
         assert self.driver.find_element(*self.GT_USERS_CREATE_USER_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_CANCEL_BTN).is_displayed()
         assert self.driver.find_element(*self.GT_USERS_BACK_BTN).is_displayed()
-
-      
+        
         self.driver.find_element(*self.GT_USERS_BACK_BTN).click()
-     
+                
+               
      
       ##---------------------------  BUGBOARD---------------------------------------------------------
     
@@ -2542,7 +3119,6 @@ class HomePage:
 
         assert self.driver.find_element(*self.BUGS_BOARD).is_displayed()
 
-        self.driver.find_element(*self.BUGS_BOARD).click()
 
         time.sleep(Config.MEDIUM_WAIT)
 
@@ -2573,13 +3149,16 @@ class HomePage:
        
     def verify_bugs_summary_module(self):
 
+
         self.driver.find_element(*self.BUGS_SUMMARY).click()
+        
 
+        
         time.sleep(Config.LONG_WAIT)
-
+                
         assert self.driver.find_element(*self.BUGS_TOTAL_ISSUES).is_displayed()
         assert self.driver.find_element(*self.BUGS_OPEN_ISSUES).is_displayed()
-        assert self.driver.find_element(*self.BUGS_CLOSED_STATUS).is_displayed()
+        assert self.driver.find_element(*self.BUGS_COMPLETED_STATUS).is_displayed()
         assert self.driver.find_element(*self.BUGS_UPDATED_STATUS).is_displayed()
         assert self.driver.find_element(*self.BUGS_DATE_FILTER).is_displayed()
         assert self.driver.find_element(*self.BUGS_EXPORT_BTN).is_displayed()
@@ -2587,33 +3166,56 @@ class HomePage:
         assert self.driver.find_element(*self.BUGS_PRIORITY_BREAKDOWN).is_displayed()
         assert self.driver.find_element(*self.BUGS_PRIORITY_SPLIT).is_displayed()
         assert self.driver.find_element(*self.BUGS_ISSUE_TREND).is_displayed()
-        assert self.driver.find_element(*self.BUGS_COMPLETION_RATE).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TEAM_WORKLOAD).is_displayed()
-        assert self.driver.find_element(*self.BUGS_CYCLE_TIME_DISTRIBUTION).is_displayed()
+                        #assert self.driver.find_element(*self.COMPLETION_RATE).is_displayed()
+                       # assert self.driver.find_element(*self.TEAM_WORKLOAD).is_displayed()
+                        #assert self.driver.find_element(*self.CYCLE_TIME_DISTRIBUTION).is_displayed()
         assert self.driver.find_element(*self.BUGS_ASSIGNE_VS_TRACKER).is_displayed()
-
-
-        time.sleep(Config.MEDIUM_WAIT)
-        
+                        
+                        
         self.driver.find_element(*self.BUGS_DATE_FILTER).click()
-        
+                        
         time.sleep(Config.MEDIUM_WAIT)
-        
-        self.driver.find_element(*self.BUGS_DATE_FILTER_RADIO_BTN).is_displayed()
-        
+                        
+                       # self.driver.find_element(*self.DATE_FILTER_RADIO_BTN).is_displayed()
+                        
         self.driver.find_element(*self.BUGS_UPDATE_BTN).is_displayed()
-        
-        self.driver.find_element(*self.BUGS_SUMMARY_CLOSE_CLICK).click()
-        
+                        
+        self.driver.find_element(*self.BUGS_CLICK_ON_SUMMARY_PAGE).click()
+                        
         self.driver.find_element(*self.BUGS_EXPORT_BTN).click()
-        
+                        
         time.sleep(Config.MEDIUM_WAIT)
-        
+                        
         assert self.driver.find_element(*self.BUGS_EXPORT_AS_CSV_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_EXPORT_AS_HTML_BTN).is_displayed()
-        
-        self.driver.find_element(*self.BUGS_SUMMARY_CLOSE_CLICK).click()
-    
+                        
+        self.driver.find_element(*self.BUGS_CLICK_ON_SUMMARY_PAGE).click()
+                        
+                        
+        self.driver.find_element(*self.BUGS_TOTAL_ISSUES).click()
+                        
+        time.sleep(Config.LONG_WAIT)
+                        
+        self.driver.back()
+                        
+        time.sleep(Config.LONG_WAIT)
+                        
+        self.driver.find_element(*self.BUGS_OPEN_ISSUES).click()
+                        
+        time.sleep(Config.LONG_WAIT)
+                        
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+                        
+        self.driver.find_element(*self.BUGS_COMPLETED_STATUS).click()
+                        
+        time.sleep(Config.LONG_WAIT)
+        self.driver.back()
+        time.sleep(Config.LONG_WAIT)
+                        
+        self.driver.find_element(*self.BUGS_UPDATED_STATUS).click()
+        time.sleep(Config.LONG_WAIT)
+                
     def verify_bugs_reports_module(self):
 
         self.driver.find_element(*self.BUGS_REPORTS).click()
@@ -2641,48 +3243,56 @@ class HomePage:
     def verify_bugs_lists_module(self):
 
         self.driver.find_element(*self.BUGS_LISTS_BTN).click()
-
+                        
+        time.sleep(Config.MEDIUM_WAIT)
+                
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located(self.BUGS_LISTS_SEARCH_ISSUES)
-        )
-
+                            EC.visibility_of_element_located(self.BUGS_LISTS_SEARCH_ISSUES)
+                        )
+                
         assert self.driver.find_element(*self.BUGS_LISTS_SEARCH_ISSUES).is_displayed()
-        assert self.driver.find_element(*self.BUGS_LIST_CHECKBOX_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_CHECKBOX_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_CREATE_BTN).is_displayed()
-
+                
         self.driver.find_element(*self.BUGS_LISTS_CREATE_BTN).click()
-
+                
+        time.sleep(Config.MEDIUM_WAIT)
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located(self.BUGS_LISTS_TASK_BTN)
-        )
-        
-        if self.is_task_only_project():
-         self.verify_bugs_task_only()
-
-        elif self.is_task_bug_story_epic_project():
-              self.verify_bugs_task_bug_story_epic()
-
-        elif self.is_all_tracker_project():
-           self.verify_bugs_all_trackers()
-
-        else:
-         raise Exception(f"No Bugs tracker configuration found for {self.selected_team}") 
-        
+                            EC.visibility_of_element_located(self.BUGS_LISTS_TASK_BTN)
+                        )
+                
+        assert self.driver.find_element(*self.BUGS_LISTS_TASK_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_BUG_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_EPIC_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_CR_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_PROD_BUG).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_STORY_BTN).is_displayed()
+                
         self.driver.find_element(*self.BUGS_LISTS_CLOSE_ICON).click()
-
+                        
+        time.sleep(Config.MEDIUM_WAIT)
+                        
+                
         assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_BTN).is_displayed()
-        assert self.driver.find_element(*self.BUGS_LISTS_PAGINATION).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_ITEMS_PER_PAGE).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_FULL_LEFT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_FULL_RIGHT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_LEFT_NAVIGATION_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_RIGHT_NAVIGATION_BTN).is_displayed()
-        
+                
+                        
         self.driver.find_element(*self.BUGS_LISTS_EXPORT_BTN).click()
-        assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_CSV_ALL_FIELDS).is_displayed()
+                        
+        time.sleep(Config.MEDIUM_WAIT)
+                
         assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_CSV_DEF).is_displayed()
-        assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_HTML_ALL_FIELDS).is_displayed()
         assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_HTML_DEF).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_CSV_ALL_FIELDS).is_displayed()
+        assert self.driver.find_element(*self.BUGS_LISTS_EXPORT_HTML_ALL_FIELDS).is_displayed()
+                        
         self.driver.find_element(*self.BUGS_LISTS_EXPORT_CLOSE_CLICK).click()
+                        
+                
         
         
     def verify_bugs_task_only(self):
@@ -2727,50 +3337,77 @@ class HomePage:
 
         timesheets_btn = self.driver.find_element(*self.BUGS_TIMESHEETS_BTN)
         self.driver.execute_script("arguments[0].click();", timesheets_btn)
-
+       
+               
         time.sleep(Config.LONG_WAIT)
-
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_EXPORT_BTN).is_displayed()
+               
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_ISSUE).is_displayed()
+               #(timesheet card is not there)assert self.driver.find_element(*self.TIMESHEETS_TIMESHEET_CARD).is_displayed()
         assert self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_LEFT_NAV_BTN).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).is_displayed()  
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).is_displayed()
+               
+               
         assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL).is_displayed()
-        
-        time.sleep(Config.MEDIUM_WAIT)
-        
         self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_LEFT_NAV_BTN).click()
         self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_RIGHT_NAV_BTN).click()
-        
+               
         time.sleep(Config.MEDIUM_WAIT)
-        
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_PROJECT_ISSUE).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_TIMESHEET_CARD).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL).is_displayed()
-        
-        self.driver.find_element(*self.BUGS_TIMESHEETS_EXPORT_BTN).click()
-        assert self.driver.find_element(*self.BUGS_TIME_SHEETS_EXPORT_DOWNLOAD_AS_EXCEL).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIME_SHEETS_EXPORT_DOWNLOAD_AS_HTML).is_displayed()
-        
-        self.driver.find_element(*self.BUGS_TIMESHEETS_EXPORT_CLOSE_CLICK).click()
-        
+              
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_LOG_BUTTON).is_displayed()
+               
         time.sleep(Config.MEDIUM_WAIT)
-        
+               
+        self.driver.find_element(*self.BUGS_TIMESHEETS_LOG_BUTTON).click()
+               
+        time.sleep(Config.MEDIUM_WAIT)
+           
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_LOGTIME_ISSUES_DRPDWN).is_displayed()
+              
+        time.sleep(Config.MEDIUM_WAIT)  
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_DATE_FIELD).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_ACTIVITY_DROPDOWN).is_displayed()         
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_START_TIME).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_END_TIME).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_TIME_SPENT).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_WORK_DESCRIPTION).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_LOGTIME_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_CANCEL_BTN).is_displayed()
+               
+        time.sleep(Config.MEDIUM_WAIT)
+        self.driver.find_element(*self.BUGS_TIMESHEETS_CANCEL_BTN).click()
+        time.sleep(Config.MEDIUM_WAIT)
+               
+              
+       ####_---TIMESHEETS_APPROVAL MODULE---------------------------------------------
+       
         self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL).click()
-        
         time.sleep(Config.MEDIUM_WAIT)
-        
         assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).is_displayed()
         assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_WAITING_FOR_APPROVAL).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVED).is_displayed()
-        assert self.driver.find_element(*self.BUGS_TIMESHEETS_READY_TO_SUBMIT).is_displayed()
-        
-        time.sleep(Config.MEDIUM_WAIT)
-        
-        self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()
-        time.sleep(Config.MEDIUM_WAIT)
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_READY_TO_SUBMIT).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_WAITING_FOR_APPROVAL).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_APPROVED_STATUS).is_displayed()
         self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_NEXT_WEEK_NAVIGATE_BTN).click()
-        
-
+        self.driver.find_element(*self.BUGS_TIMESHEETS_APPROVAL_PREVIOUS_WEEK_NAVIGATE_BTN).click()  
+               
+               ####-------------------TEAM TIMESHEETS---------------------------------------------
+           
+        self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_BTN).click()
+               
+        time.sleep(Config.MEDIUM_WAIT)
+               
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_THISWEEK_BTN).is_displayed()     
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_EXPORTTEAM_BTN).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_TEAM_MEMBERS).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_ENTRIES).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_TOTAL_HOURS).is_displayed()
+        assert self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_MEMBER_LIST).is_displayed()
+              
+        self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_NEXT_WEEK_NAVIGATION_BTN).click()
+        self.driver.find_element(*self.BUGS_TEAM_TIMESHEETS_PREVIOUS_WEEK_NAVIGATION_BTN).click()
+           
     def verify_bugs_users_module(self):
 
         self.driver.find_element(*self.BUGS_USERS_BTN).click()

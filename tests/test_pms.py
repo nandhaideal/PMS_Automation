@@ -1,10 +1,19 @@
+from asyncio import Task
+
+from pages.Ghmis_creation_page.Story_Creation_ghmis import StoryCreationPage
 import pytest
 from selenium import webdriver
 
 from config.config import Config
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
-
+from pages.Ghmis_creation_page.Task_Creation import TaskCreationPage
+from pages.Ghmis_creation_page.Epic_Creation_ghmis import EpicCreationPage
+from pages.Ghmis_creation_page.CR_CREATION_GHMIS import CRCreationPage
+from pages.Ghmis_creation_page.Story_Creation_ghmis import StoryCreationPage
+from pages.Ghmis_creation_page.SubTask_Creation_ghmis import SubTask_Creation_Page
+from pages.Ghmis_creation_page.Bug_creation_ghmis import BugCreationPage
+   
 
 def setup_driver():
     options = webdriver.ChromeOptions()
@@ -299,6 +308,7 @@ def test_verify_bugs_lists_module():
     driver, home_page = login_and_get_home_page()
     try:
         home_page.select_filter_by_projects()
+        home_page.navigate_board()
         home_page.open_bugs_board()
         home_page.verify_bugs_lists_module()
     finally:
@@ -309,6 +319,7 @@ def test_verify_bugs_timesheets_module():
     driver, home_page = login_and_get_home_page()
     try:
         home_page.select_filter_by_projects()
+        home_page.navigate_board()
         home_page.open_bugs_board()
         home_page.verify_bugs_timesheets_module()
     finally:
@@ -320,7 +331,118 @@ def test_verify_bugs_users_module():
     driver, home_page = login_and_get_home_page()
     try:
         home_page.select_filter_by_projects()
+        home_page.navigate_board()
         home_page.open_bugs_board()
         home_page.verify_bugs_users_module()
     finally:
         driver.quit()
+
+
+def test_create_task():
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create Task Creation page object 
+        task_creation = TaskCreationPage(driver) 
+        # Run task creation 
+        task_creation.Create_Task()
+    finally:  
+        
+       
+        driver.quit()
+        
+        
+def test_create_epic():
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create Epic Creation page object 
+        epic_creation = EpicCreationPage(driver) 
+        # Run epic creation 
+        epic_creation.Create_Epic()
+    finally:   
+         
+        
+        driver.quit()
+        
+        
+        
+def test_create_cr():
+        
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create CR Creation page object 
+        cr_creation = CRCreationPage(driver) 
+        # Run CR creation 
+        cr_creation.Create_CR()
+    finally:   
+         
+        input("Press Enter to close browser...")
+        
+        driver.quit()    
+        
+        
+def test_create_story():
+        
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create Story Creation page object 
+        story_creation = StoryCreationPage(driver)
+        # Run story creation 
+        story_creation.Create_STORY()
+    finally:   
+         
+        input("Press Enter to close browser...")
+        
+        driver.quit()           
+        
+        
+        
+def test_create_subtask():
+        
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create Subtask Creation page object 
+        subtask_creation = SubTask_Creation_Page(driver)
+        # Run subtask creation 
+        subtask_creation.Create_SubTask()
+    
+    finally:   
+         
+        input("Press Enter to close browser...")
+        
+        driver.quit()                  
+        
+        
+        
+        
+def test_create_bug():
+        
+    driver, home_page = login_and_get_home_page()
+    try:
+        home_page.select_filter_by_projects()
+        home_page.navigate_board()
+        open_scrum_if_available(home_page)
+       # Create Bug Creation page object 
+        bug_creation = BugCreationPage(driver)
+        # Run bug creation 
+        bug_creation.Create_Bug()
+    
+    finally:   
+         
+        input("Press Enter to close browser...")
+        
+        driver.quit()                  
